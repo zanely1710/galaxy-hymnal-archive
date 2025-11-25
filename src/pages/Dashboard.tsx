@@ -138,7 +138,7 @@ export default function Dashboard() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Admin Dashboard
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground">
             Manage Gloriae Musica content and users
           </p>
         </div>

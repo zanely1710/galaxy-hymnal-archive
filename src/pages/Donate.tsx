@@ -25,7 +25,7 @@ export default function Donate() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
             Support Gloriae Musica
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-lg text-foreground">
             Your donations help us maintain and grow this free archive of sacred music
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function Donate() {
         <Card className="glass-card glow-blue p-8 space-y-6">
           <div className="text-center">
             <h2 className="text-2xl font-semibold mb-2">Support Our Mission</h2>
-            <p className="text-sm text-muted-foreground mb-6">
+            <p className="text-sm text-foreground mb-6">
               You can send donations via Maya, GCash to Maya, or bank transfer to the account below
             </p>
           </div>
