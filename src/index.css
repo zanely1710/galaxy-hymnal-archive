@@ -8,79 +8,83 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Galaxy Sanctuary Theme - Deep Space */
-    --background: 230 35% 7%;
-    --foreground: 210 40% 98%;
+    /* Blue + Gold Theme */
+    --background: 220 25% 96%;
+    --foreground: 220 30% 10%;
 
-    --card: 230 30% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 30% 10%;
 
-    --popover: 230 30% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 30% 10%;
 
-    /* Neon Cyan Primary */
-    --primary: 189 94% 63%;
-    --primary-foreground: 230 35% 7%;
+    /* Royal Blue Primary */
+    --primary: 220 90% 56%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Purple Nebula Secondary */
-    --secondary: 270 60% 50%;
-    --secondary-foreground: 210 40% 98%;
+    /* Deep Blue Secondary */
+    --secondary: 220 70% 40%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 230 25% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 220 15% 90%;
+    --muted-foreground: 220 15% 45%;
 
     /* Gold Accent */
-    --accent: 45 93% 58%;
-    --accent-foreground: 230 35% 7%;
+    --accent: 45 95% 60%;
+    --accent-foreground: 220 30% 10%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 230 20% 20%;
-    --input: 230 25% 15%;
-    --ring: 189 94% 63%;
+    --border: 220 15% 85%;
+    --input: 220 15% 90%;
+    --ring: 220 90% 56%;
 
     --radius: 0.75rem;
 
     /* Custom design tokens */
-    --glow-cyan: 189 94% 63%;
-    --glow-purple: 270 60% 50%;
-    --glow-gold: 45 93% 58%;
-    --space-dark: 230 35% 7%;
-    --nebula-purple: 270 60% 20%;
-    --star-blue: 210 100% 70%;
+    --glow-blue: 220 90% 56%;
+    --glow-gold: 45 95% 60%;
+    --deep-blue: 220 70% 40%;
+    --light-blue: 220 95% 70%;
   }
 }
 
 @layer utilities {
   /* Glow effects */
-  .glow-cyan {
-    box-shadow: 0 0 20px hsl(var(--glow-cyan) / 0.5),
-                0 0 40px hsl(var(--glow-cyan) / 0.3);
-  }
-  
-  .glow-purple {
-    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.5),
-                0 0 40px hsl(var(--glow-purple) / 0.3);
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.4),
+                0 0 40px hsl(var(--glow-blue) / 0.2);
   }
   
   .glow-gold {
-    box-shadow: 0 0 20px hsl(var(--glow-gold) / 0.5),
-                0 0 40px hsl(var(--glow-gold) / 0.3);
+    box-shadow: 0 0 20px hsl(var(--glow-gold) / 0.4),
+                0 0 40px hsl(var(--glow-gold) / 0.2);
   }
 
   /* Text gradients */
-  .text-gradient-cyan {
-    @apply bg-gradient-to-r from-primary to-star-blue bg-clip-text text-transparent;
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-primary via-light-blue to-primary bg-clip-text text-transparent;
   }
   
-  .text-gradient-nebula {
-    @apply bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent;
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-accent via-yellow-400 to-accent bg-clip-text text-transparent;
+  }
+
+  .text-gradient-animated {
+    @apply bg-gradient-to-r from-white via-primary via-accent to-white bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
   }
 
   /* Glass morphism */
   .glass-card {
-    @apply bg-card/30 backdrop-blur-lg border border-border/50;
+    @apply bg-card/80 backdrop-blur-sm border border-border;
   }
 
   /* Animations */
@@ -93,6 +97,22 @@ All colors MUST be HSL.
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
   }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   
   .animate-float {
     animation: float 6s ease-in-out infinite;
@@ -100,6 +120,26 @@ All colors MUST be HSL.
   
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+
+  /* Scroll animation utility */
+  .scroll-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .scroll-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

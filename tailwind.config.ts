@@ -54,10 +54,10 @@ export default {
         "nebula-purple": "hsl(var(--nebula-purple))",
         "star-blue": "hsl(var(--star-blue))",
       },
-      fontFamily: {
-        sans: ["Outfit", "sans-serif"],
-        display: ["Cinzel", "serif"],
-      },
+		fontFamily: {
+			sans: ["Inter", "system-ui", "sans-serif"],
+			display: ["Inter", "system-ui", "sans-serif"],
+		},
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

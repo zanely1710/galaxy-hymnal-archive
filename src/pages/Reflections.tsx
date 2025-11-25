@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
-import Galaxy3D from "@/components/Galaxy3D";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
@@ -11,7 +10,6 @@ export default function Reflections() {
 
   const generateReflection = async () => {
     setLoading(true);
-    // Placeholder for AI integration
     setTimeout(() => {
       setReflection(
         "Like a warm cup of coffee in the morning, faith nourishes our souls. In the midst of our busy lives, let us pause and remember: God's grace is always present, gentle as a sunrise, constant as the morning dew. May your day be blessed with peace and harmony."
@@ -21,13 +19,12 @@ export default function Reflections() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Galaxy3D />
+    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
       <Navigation />
 
-      <main className="relative z-10 container mx-auto px-4 pt-24 pb-16 max-w-3xl">
-        <div className="text-center mb-12">
-          <h1 className="font-display text-5xl font-bold text-gradient-nebula mb-4">
+      <main className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
+        <div className="text-center mb-12 animate-fade-in-up">
+          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Spiritual Reflections
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -35,7 +32,7 @@ export default function Reflections() {
           </p>
         </div>
 
-        <Card className="glass-card glow-purple">
+        <Card className="glass-card glow-blue animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <CardHeader>
             <CardTitle className="font-display text-2xl text-center text-primary">
               Generate a Reflection
@@ -45,7 +42,7 @@ export default function Reflections() {
             <Button
               onClick={generateReflection}
               disabled={loading}
-              className="w-full glow-cyan"
+              className="w-full glow-blue"
               size="lg"
             >
               <Sparkles className="w-5 h-5 mr-2" />
@@ -53,7 +50,7 @@ export default function Reflections() {
             </Button>
 
             {reflection && (
-              <div className="p-6 bg-card/50 rounded-lg border border-primary/20 animate-fade-in">
+              <div className="p-6 bg-card rounded-lg border border-primary/20 animate-fade-in">
                 <p className="text-foreground leading-relaxed text-center italic">
                   "{reflection}"
                 </p>
