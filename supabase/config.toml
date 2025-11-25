@@ -1,1 +1,4 @@
 project_id = "edrycckeyvthptwnpzir"
+
+[functions.generate-reflection]
+verify_jwt = true

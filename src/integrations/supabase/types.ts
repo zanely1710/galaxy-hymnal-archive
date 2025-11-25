@@ -132,6 +132,24 @@ export type Database = {
         }
         Relationships: []
       }
+      reflections: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
       song_requests: {
         Row: {
           completed: boolean
@@ -163,6 +181,35 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_reflections: {
+        Row: {
+          id: string
+          reflection_id: string
+          user_id: string
+          viewed_at: string | null
+        }
+        Insert: {
+          id?: string
+          reflection_id: string
+          user_id: string
+          viewed_at?: string | null
+        }
+        Update: {
+          id?: string
+          reflection_id?: string
+          user_id?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_reflections_reflection_id_fkey"
+            columns: ["reflection_id"]
+            isOneToOne: false
+            referencedRelation: "reflections"
             referencedColumns: ["id"]
           },
         ]
