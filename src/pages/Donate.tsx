@@ -81,17 +81,14 @@ export default function Donate() {
 
           <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mt-6">
             <p className="text-sm text-center">
-              Every donation, no matter the size, helps us continue providing free access to sacred music. 
-              You can use PayMaya, GCash to Maya, bank transfer, or any payment method that works for you.
-              For custom donation options or inquiries, feel free to reach out via email.
-              Thank you for your generosity! 🙏
+              Every donation, no matter the size, helps us continue providing free access to sacred music. You can use Maya, GCash to Maya, bank transfer, or any payment method that works for you. For custom donation options or inquiries, feel free to reach out via email. Thank you for your generosity! 🙏
             </p>
           </div>
         </Card>
 
         <div className="mt-8 text-center text-sm text-muted-foreground">
           <p>Suggested donations: ₱100 - ₱500 monthly</p>
-          <p className="mt-2">All donations are voluntary and deeply appreciated</p>
+          <p className="mt-2">All donations are voluntary and deeply appreciated (OPTIONAL) </p>
         </div>
       </div>
     </div>;
