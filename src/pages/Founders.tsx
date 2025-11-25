@@ -1,10 +1,12 @@
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Heart, Music } from "lucide-react";
 
 export default function Founders() {
   return (
     <div className="min-h-screen bg-background">
+      <Galaxy3D />
       <Navigation />
 
       <main className="container mx-auto px-4 pt-24 pb-16">

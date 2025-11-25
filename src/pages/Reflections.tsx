@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
@@ -20,6 +21,7 @@ export default function Reflections() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+      <Galaxy3D />
       <Navigation />
 
       <main className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
