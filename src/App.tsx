@@ -4,11 +4,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Archive from "./pages/Archive";
 import Reflections from "./pages/Reflections";
 import Dashboard from "./pages/Dashboard";
+import RequestSong from "./pages/RequestSong";
+import Founders from "./pages/Founders";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,9 +26,39 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/reflections" element={<Reflections />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/founders" element={<Founders />} />
+            <Route
+              path="/archive"
+              element={
+                <ProtectedRoute>
+                  <Archive />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reflections"
+              element={
+                <ProtectedRoute>
+                  <Reflections />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/request-song"
+              element={
+                <ProtectedRoute>
+                  <RequestSong />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

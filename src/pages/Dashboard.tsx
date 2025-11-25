@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
-import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Music, Users, MessageSquare } from "lucide-react";
@@ -96,8 +95,7 @@ export default function Dashboard() {
   if (loading || dataLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <Galaxy3D />
-        <div className="relative z-10 text-center">
+        <div className="text-center">
           <Shield className="w-12 h-12 text-primary mx-auto mb-4 animate-pulse" />
           <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
@@ -108,13 +106,12 @@ export default function Dashboard() {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Galaxy3D />
+    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
       <Navigation />
 
-      <main className="relative z-10 container mx-auto px-4 pt-24 pb-16">
-        <div className="mb-8">
-          <h1 className="font-display text-5xl font-bold text-gradient-nebula mb-4">
+      <main className="container mx-auto px-4 pt-24 pb-16">
+        <div className="mb-8 animate-fade-in-up">
+          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Admin Dashboard
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -124,7 +121,7 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="glass-card glow-cyan hover:scale-105 transition-transform">
+          <Card className="glass-card glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-primary">
                 <Music className="w-5 h-5" />
@@ -137,7 +134,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card glow-purple hover:scale-105 transition-transform">
+          <Card className="glass-card glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-secondary">
                 <Users className="w-5 h-5" />
@@ -150,7 +147,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card glow-gold hover:scale-105 transition-transform">
+          <Card className="glass-card glow-gold hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-accent">
                 <MessageSquare className="w-5 h-5" />
@@ -165,8 +162,8 @@ export default function Dashboard() {
         </div>
 
         {/* Management Tabs */}
-        <Tabs defaultValue="upload" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-card/50">
+        <Tabs defaultValue="upload" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <TabsList className="grid w-full grid-cols-4 bg-card">
             <TabsTrigger value="upload">Upload Music</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="requests">Requests</TabsTrigger>

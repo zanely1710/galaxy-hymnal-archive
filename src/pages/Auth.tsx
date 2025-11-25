@@ -8,7 +8,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
-import Galaxy3D from "@/components/Galaxy3D";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 
@@ -33,24 +32,24 @@ export default function Auth() {
 
     try {
       const redirectUrl = `${window.location.origin}/`;
-      
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { name },
-          emailRedirectTo: redirectUrl
-        }
+          emailRedirectTo: redirectUrl,
+        },
       });
 
       if (error) throw error;
 
       toast({
         title: "Account created!",
-        description: "Welcome to Gloriae Musica. You can now access the archive.",
+        description: "Please check your email to verify your account before signing in.",
       });
 
-      navigate("/archive");
+      navigate("/");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -92,14 +91,13 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Galaxy3D />
+    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
       <Navigation />
-      
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 pt-20">
-        <Card className="w-full max-w-md glass-card glow-cyan">
+
+      <div className="flex items-center justify-center min-h-screen px-4 pt-20">
+        <Card className="w-full max-w-md glass-card glow-blue animate-fade-in-up">
           <CardHeader className="text-center">
-            <CardTitle className="font-display text-3xl text-gradient-cyan">
+            <CardTitle className="font-display text-3xl text-gradient-blue">
               Join Gloriae Musica
             </CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -124,7 +122,7 @@ export default function Auth() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="bg-background/50"
+                      className="bg-background"
                     />
                   </div>
                   <div className="space-y-2">
@@ -135,10 +133,10 @@ export default function Auth() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="bg-background/50"
+                      className="bg-background"
                     />
                   </div>
-                  <Button type="submit" className="w-full glow-cyan" disabled={loading}>
+                  <Button type="submit" className="w-full glow-blue" disabled={loading}>
                     {loading ? "Signing in..." : "Sign In"}
                   </Button>
                 </form>
@@ -155,7 +153,7 @@ export default function Auth() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
-                      className="bg-background/50"
+                      className="bg-background"
                     />
                   </div>
                   <div className="space-y-2">
@@ -167,7 +165,7 @@ export default function Auth() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="bg-background/50"
+                      className="bg-background"
                     />
                   </div>
                   <div className="space-y-2">
@@ -179,12 +177,15 @@ export default function Auth() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       minLength={6}
-                      className="bg-background/50"
+                      className="bg-background"
                     />
                   </div>
-                  <Button type="submit" className="w-full glow-cyan" disabled={loading}>
+                  <Button type="submit" className="w-full glow-blue" disabled={loading}>
                     {loading ? "Creating account..." : "Create Account"}
                   </Button>
+                  <p className="text-xs text-muted-foreground text-center">
+                    You'll receive a verification email after signing up
+                  </p>
                 </form>
               </TabsContent>
             </Tabs>

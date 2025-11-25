@@ -1,12 +1,22 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
-import Galaxy3D from "@/components/Galaxy3D";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Download, Music } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Search, Download, Music, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface MusicSheet {
@@ -31,7 +41,9 @@ export default function Archive() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     fetchData();
@@ -89,14 +101,41 @@ export default function Archive() {
     return new Date(createdAt) > weekAgo;
   };
 
+  const handleDelete = async () => {
+    if (!deleteId) return;
+
+    try {
+      const { error } = await supabase
+        .from("music_sheets")
+        .delete()
+        .eq("id", deleteId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Sheet deleted",
+        description: "Music sheet has been removed from the archive",
+      });
+
+      fetchData();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Delete failed",
+        description: error.message,
+      });
+    } finally {
+      setDeleteId(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <Galaxy3D />
       <Navigation />
 
-      <main className="relative z-10 container mx-auto px-4 pt-24 pb-16">
-        <div className="mb-8">
-          <h1 className="font-display text-5xl font-bold text-gradient-nebula mb-4">
+      <main className="container mx-auto px-4 pt-24 pb-16">
+        <div className="mb-8 animate-fade-in-up">
+          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Music Archive
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -104,14 +143,14 @@ export default function Archive() {
           </p>
         </div>
 
-        <div className="mb-8 space-y-4">
+        <div className="mb-8 space-y-4 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               placeholder="Search by title or composer..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-card/50 border-border/50"
+              className="pl-10 bg-card border-border"
             />
           </div>
 
@@ -120,7 +159,7 @@ export default function Archive() {
               variant={selectedCategory === null ? "default" : "outline"}
               onClick={() => setSelectedCategory(null)}
               size="sm"
-              className={selectedCategory === null ? "glow-cyan" : ""}
+              className={selectedCategory === null ? "glow-blue" : ""}
             >
               All Categories
             </Button>
@@ -130,7 +169,7 @@ export default function Archive() {
                 variant={selectedCategory === cat.id ? "default" : "outline"}
                 onClick={() => setSelectedCategory(cat.id)}
                 size="sm"
-                className={selectedCategory === cat.id ? "glow-purple" : ""}
+                className={selectedCategory === cat.id ? "glow-blue" : ""}
               >
                 {cat.name}
               </Button>
@@ -152,8 +191,12 @@ export default function Archive() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredSheets.map((sheet) => (
-              <Card key={sheet.id} className="glass-card hover:scale-105 transition-transform glow-purple">
+            {filteredSheets.map((sheet, index) => (
+              <Card 
+                key={sheet.id} 
+                className="glass-card hover:scale-105 transition-all glow-blue animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
                 <CardHeader>
                   <div className="flex items-start justify-between gap-2">
                     <CardTitle className="font-display text-xl text-primary">
@@ -169,7 +212,7 @@ export default function Archive() {
                     <p className="text-sm text-muted-foreground">by {sheet.composer}</p>
                   )}
                   {sheet.categories && (
-                    <Badge variant="outline" className="w-fit border-primary/50">
+                    <Badge variant="outline" className="w-fit border-primary">
                       {sheet.categories.name}
                     </Badge>
                   )}
@@ -184,11 +227,20 @@ export default function Archive() {
                     {sheet.file_url && (
                       <Button
                         size="sm"
-                        className="flex-1 glow-cyan"
+                        className="flex-1 glow-blue"
                         onClick={() => window.open(sheet.file_url!, "_blank")}
                       >
                         <Download className="w-4 h-4 mr-2" />
                         Download
+                      </Button>
+                    )}
+                    {isAdmin && (
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => setDeleteId(sheet.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     )}
                   </div>
@@ -198,6 +250,23 @@ export default function Archive() {
           </div>
         )}
       </main>
+
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Music Sheet</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this music sheet? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
