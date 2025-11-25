@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Heart, Music } from "lucide-react";
+import gloriaeLogoImage from "@/assets/gloriae-logo.png";
 export default function Founders() {
   return <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
@@ -25,8 +26,8 @@ export default function Founders() {
         }}>
             <div className="md:flex">
               <div className="md:w-1/3 bg-gradient-to-br from-primary to-secondary p-8 flex items-center justify-center">
-                <div className="w-48 h-48 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                  <Music className="w-24 h-24 text-white" />
+                <div className="w-48 h-48 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center p-4">
+                  <img src={gloriaeLogoImage} alt="Gloriae Musica Logo" className="w-full h-full object-contain" />
                 </div>
               </div>
               <CardContent className="md:w-2/3 p-8">
