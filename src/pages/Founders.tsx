@@ -13,7 +13,7 @@ export default function Founders() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             About the Founders
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-foreground max-w-2xl mx-auto">
             Meet the passionate individuals behind Gloriae Musica
           </p>
         </div>
