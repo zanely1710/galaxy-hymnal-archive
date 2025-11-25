@@ -85,7 +85,7 @@ const Index = () => {
                 <h3 className="text-xl font-semibold text-primary mb-2 font-sans">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground">{feature.desc}</p>
+                <p className="text-foreground">{feature.desc}</p>
               </div>)}
           </div>
         </div>

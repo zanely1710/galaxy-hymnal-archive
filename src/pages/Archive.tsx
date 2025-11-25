@@ -143,7 +143,7 @@ export default function Archive() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Music Archive
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground">
             Browse and download sacred liturgical music
           </p>
         </div>
@@ -224,7 +224,7 @@ export default function Archive() {
                 </CardHeader>
                 <CardContent>
                   {sheet.description && (
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                    <p className="text-sm text-foreground mb-4 line-clamp-2">
                       {sheet.description}
                     </p>
                   )}

@@ -89,7 +89,7 @@ export default function RequestSong() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Request a Song
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground">
             Can't find the music you're looking for? Let us know and we'll try to add it to our archive.
           </p>
         </div>
