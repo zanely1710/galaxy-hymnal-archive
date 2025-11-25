@@ -3,11 +3,12 @@ import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Heart, Music } from "lucide-react";
 export default function Founders() {
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <main className="relative container mx-auto px-4 pt-24 pb-16">
         <div className="mb-12 text-center animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             About the Founders
@@ -19,7 +20,7 @@ export default function Founders() {
 
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Main Founder Card */}
-          <Card className="glass-card glow-blue overflow-hidden animate-fade-in-up" style={{
+          <Card className="glass-card backdrop-blur-md glow-blue overflow-hidden animate-fade-in-up" style={{
           animationDelay: "0.1s"
         }}>
             <div className="md:flex">
@@ -56,7 +57,7 @@ export default function Founders() {
           </Card>
 
           {/* Mission Statement */}
-          <Card className="glass-card glow-gold animate-fade-in-up" style={{
+          <Card className="glass-card backdrop-blur-md glow-gold animate-fade-in-up" style={{
           animationDelay: "0.2s"
         }}>
             <CardContent className="p-8">
@@ -73,7 +74,7 @@ export default function Founders() {
           </Card>
 
           {/* Vision Statement */}
-          <Card className="glass-card glow-blue animate-fade-in-up" style={{
+          <Card className="glass-card backdrop-blur-md glow-blue animate-fade-in-up" style={{
           animationDelay: "0.3s"
         }}>
             <CardContent className="p-8">

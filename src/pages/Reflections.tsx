@@ -20,11 +20,12 @@ export default function Reflections() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+    <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
+      <main className="relative container mx-auto px-4 pt-24 pb-16 max-w-3xl">
         <div className="text-center mb-12 animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Spiritual Reflections
@@ -34,7 +35,7 @@ export default function Reflections() {
           </p>
         </div>
 
-        <Card className="glass-card glow-blue animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+        <Card className="glass-card backdrop-blur-md glow-blue animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <CardHeader>
             <CardTitle className="font-display text-2xl text-center text-primary">
               Generate a Reflection
