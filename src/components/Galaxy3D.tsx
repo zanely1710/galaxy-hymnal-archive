@@ -8,7 +8,7 @@ function Stars() {
   
   const particles = useMemo(() => {
     const temp = [];
-    for (let i = 0; i < 3000; i++) {
+    for (let i = 0; i < 5000; i++) {
       const x = (Math.random() - 0.5) * 100;
       const y = (Math.random() - 0.5) * 100;
       const z = (Math.random() - 0.5) * 100;
@@ -28,11 +28,12 @@ function Stars() {
     <Points ref={ref} positions={particles} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#3b82f6"
-        size={0.15}
+        color="#60a5fa"
+        size={0.2}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
+        opacity={0.8}
       />
     </Points>
   );
@@ -43,7 +44,7 @@ function GalaxyDust() {
   
   const particles = useMemo(() => {
     const temp = [];
-    for (let i = 0; i < 2000; i++) {
+    for (let i = 0; i < 3000; i++) {
       const x = (Math.random() - 0.5) * 80;
       const y = (Math.random() - 0.5) * 80;
       const z = (Math.random() - 0.5) * 80;
@@ -63,12 +64,12 @@ function GalaxyDust() {
     <Points ref={ref} positions={particles} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#eab308"
-        size={0.08}
+        color="#fbbf24"
+        size={0.12}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        opacity={0.6}
+        opacity={0.7}
       />
     </Points>
   );
@@ -76,13 +77,13 @@ function GalaxyDust() {
 
 export default function Galaxy3D() {
   return (
-    <div className="fixed inset-0 -z-10">
+    <div className="fixed inset-0 -z-10 bg-gradient-to-b from-blue-950 via-blue-900 to-background">
       <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
-        <ambientLight intensity={0.3} />
+        <ambientLight intensity={0.5} />
         <Stars />
         <GalaxyDust />
       </Canvas>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/80 pointer-events-none" />
     </div>
   );
 }
