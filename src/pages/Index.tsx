@@ -20,11 +20,12 @@ const Index = () => {
     elements.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
-  return <div className="min-h-screen bg-transparent">
+  return <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 pointer-events-none" />
       <Navigation />
 
-      <main className="flex flex-col items-center justify-center min-h-screen px-4 pt-20">
+      <main className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-20">
         <div className="text-center space-y-4 max-w-5xl mx-auto animate-fade-in">
           <div className="inline-block">
             <Music4 className="w-24 h-24 text-primary mx-auto mb-3 animate-float glow-blue" />
