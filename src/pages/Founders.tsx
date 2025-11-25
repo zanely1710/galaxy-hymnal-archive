@@ -2,10 +2,8 @@ import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Heart, Music } from "lucide-react";
-
 export default function Founders() {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Galaxy3D />
       <Navigation />
 
@@ -21,7 +19,9 @@ export default function Founders() {
 
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Main Founder Card */}
-          <Card className="glass-card glow-blue overflow-hidden animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          <Card className="glass-card glow-blue overflow-hidden animate-fade-in-up" style={{
+          animationDelay: "0.1s"
+        }}>
             <div className="md:flex">
               <div className="md:w-1/3 bg-gradient-to-br from-primary to-secondary p-8 flex items-center justify-center">
                 <div className="w-48 h-48 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
@@ -29,18 +29,15 @@ export default function Founders() {
                 </div>
               </div>
               <CardContent className="md:w-2/3 p-8">
-                <h2 className="text-3xl font-bold text-primary mb-2">Fr. Eleandre John Del Rosario</h2>
-                <p className="text-accent font-semibold mb-4">Founder & Music Director</p>
+                <h2 className="text-3xl font-bold text-primary mb-2">Sem. Eleandre John Del Rosario</h2>
+                <p className="text-accent font-semibold mb-4">Founder & Creator       </p>
                 
                 <div className="space-y-4 text-muted-foreground">
                   <p>
-                    A dedicated priest and passionate advocate for sacred music, Fr. Eleandre John has devoted his ministry 
-                    to preserving and sharing the rich tradition of liturgical music within the Catholic Church.
+                    A dedicated seminarian and passionate advocate for sacred music, Sem. Eleandre John has devoted his ministry to preserving and sharing the rich tradition of liturgical music within the Catholic Church.
                   </p>
                   <p>
-                    With years of experience in music ministry and a deep love for both traditional and contemporary 
-                    sacred compositions, he founded Gloriae Musica to create a free, accessible resource for parishes, 
-                    choirs, and music ministers worldwide.
+                      His deep love for both traditional and contemporary sacred compositions, he founded Gloriae Musica to create a free, accessible resource for parishes, choirs, and music ministers around the Philippines.
                   </p>
                   <p>
                     His vision is to make quality sacred music available to all, fostering deeper worship and bringing 
@@ -59,17 +56,16 @@ export default function Founders() {
           </Card>
 
           {/* Mission Statement */}
-          <Card className="glass-card glow-gold animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          <Card className="glass-card glow-gold animate-fade-in-up" style={{
+          animationDelay: "0.2s"
+        }}>
             <CardContent className="p-8">
               <div className="flex items-start gap-4">
                 <Heart className="w-8 h-8 text-accent flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-2xl font-bold text-primary mb-3">Our Mission</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Gloriae Musica exists to serve the universal Church by providing free access to high-quality 
-                    sacred music sheets. We believe that beautiful liturgical music should be available to every 
-                    parish, choir, and individual who wishes to glorify God through song. Our archive grows through 
-                    the dedication of contributors worldwide, united in the mission of making sacred music accessible to all.
+                    Gloriae Musica exists to serve the Church by providing free access to high-quality sacred music sheets. We believe that beautiful liturgical music should be available to every parish, choir, and individual who wishes to glorify God through song. Our archive grows through the dedication of contributors worldwide, united in the mission of making sacred music accessible to all.
                   </p>
                 </div>
               </div>
@@ -77,17 +73,16 @@ export default function Founders() {
           </Card>
 
           {/* Vision Statement */}
-          <Card className="glass-card glow-blue animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          <Card className="glass-card glow-blue animate-fade-in-up" style={{
+          animationDelay: "0.3s"
+        }}>
             <CardContent className="p-8">
               <div className="flex items-start gap-4">
                 <Music className="w-8 h-8 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <h3 className="text-2xl font-bold text-primary mb-3">Our Vision</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    We envision a world where every Catholic community, regardless of resources, has access to the 
-                    rich treasury of sacred music. Through Gloriae Musica, we aim to foster a renewed appreciation 
-                    for liturgical music excellence, encourage participation in worship, and support music ministers 
-                    in their sacred calling to lead God's people in praise.
+                    We envision a place where every Catholic community, regardless of resources, has access to the rich treasury of sacred music. Through Gloriae Musica, we aim to foster a renewed appreciation for liturgical music excellence, encourage participation in worship, and support music ministers in their sacred calling to lead God's people in praise.
                   </p>
                 </div>
               </div>
@@ -95,6 +90,5 @@ export default function Founders() {
           </Card>
         </div>
       </main>
-    </div>
-  );
+    </div>;
 }
