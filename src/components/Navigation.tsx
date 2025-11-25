@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown } from "lucide-react";
+import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown, Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import NotificationButton from "./NotificationButton";
@@ -53,6 +53,13 @@ export default function Navigation() {
                   <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-accent transition-colors">
                     <MessageSquare className="w-4 h-4" />
                     <span>Request</span>
+                  </Button>
+                </Link>
+
+                <Link to="/donate">
+                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+                    <Heart className="w-4 h-4" />
+                    <span>Donate</span>
                   </Button>
                 </Link>
 
@@ -128,6 +135,13 @@ export default function Navigation() {
                         <Button variant="ghost" className="w-full justify-start gap-2">
                           <MessageSquare className="w-4 h-4" />
                           <span>Request</span>
+                        </Button>
+                      </Link>
+
+                      <Link to="/donate" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start gap-2">
+                          <Heart className="w-4 h-4" />
+                          <span>Donate</span>
                         </Button>
                       </Link>
 
