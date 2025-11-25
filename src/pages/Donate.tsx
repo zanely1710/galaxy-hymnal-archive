@@ -3,28 +3,21 @@ import { Copy, Heart, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-
 export default function Donate() {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied!",
-      description: `${label} copied to clipboard`,
+      description: `${label} copied to clipboard`
     });
   };
-
-  return (
-    <div className="min-h-screen pt-24 pb-12 px-4">
+  return <div className="min-h-screen pt-24 pb-12 px-4">
       <div className="container mx-auto max-w-2xl">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => navigate("/")}
-          className="mb-4"
-        >
+        <Button variant="outline" size="icon" onClick={() => navigate("/")} className="mb-4">
           <X className="w-4 h-4" />
         </Button>
         <div className="text-center mb-8">
@@ -41,7 +34,7 @@ export default function Donate() {
           <div className="text-center">
             <h2 className="text-2xl font-semibold mb-2">Support Our Mission</h2>
             <p className="text-sm text-muted-foreground mb-6">
-              You can send donations via PayMaya, GCash to Maya, or bank transfer to the account below
+              You can send donations via Maya, GCash to Maya, or bank transfer to the account below
             </p>
           </div>
 
@@ -53,11 +46,7 @@ export default function Donate() {
                   <p className="text-sm text-muted-foreground mb-1">PayMaya Username</p>
                   <p className="text-xl font-mono font-semibold">@eleandrejohn</p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => copyToClipboard("@eleandrejohn", "Username")}
-                >
+                <Button variant="outline" size="icon" onClick={() => copyToClipboard("@eleandrejohn", "Username")}>
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
@@ -70,11 +59,7 @@ export default function Donate() {
                   <p className="text-sm text-muted-foreground mb-1">Phone Number</p>
                   <p className="text-xl font-mono font-semibold">09684109059</p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => copyToClipboard("09684109059", "Phone number")}
-                >
+                <Button variant="outline" size="icon" onClick={() => copyToClipboard("09684109059", "Phone number")}>
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
@@ -87,11 +72,7 @@ export default function Donate() {
                   <p className="text-sm text-muted-foreground mb-1">Email for Inquiries</p>
                   <p className="text-lg font-mono font-semibold break-all">eleandrejohn503@gmail.com</p>
                 </div>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => copyToClipboard("eleandrejohn503@gmail.com", "Email")}
-                >
+                <Button variant="outline" size="icon" onClick={() => copyToClipboard("eleandrejohn503@gmail.com", "Email")}>
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
@@ -113,6 +94,5 @@ export default function Donate() {
           <p className="mt-2">All donations are voluntary and deeply appreciated</p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
