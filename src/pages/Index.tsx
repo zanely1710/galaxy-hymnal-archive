@@ -36,7 +36,7 @@ const Index = () => {
             />
           </div>
 
-          <h1 className="text-8xl font-bold text-gradient-animated leading-tight font-sans md:text-9xl -my-2">
+          <h1 className="text-8xl font-bold text-gradient-animated leading-tight font-horizon md:text-9xl -my-2">
             Gloriae Musica
           </h1>
 

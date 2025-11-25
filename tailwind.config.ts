@@ -73,6 +73,11 @@ export default {
   				'system-ui',
   				'sans-serif'
   			],
+  			horizon: [
+  				'Orbitron',
+  				'system-ui',
+  				'sans-serif'
+  			],
   			serif: [
   				'Lora',
   				'ui-serif',
