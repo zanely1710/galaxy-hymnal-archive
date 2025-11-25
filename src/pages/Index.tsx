@@ -23,7 +23,7 @@ const Index = () => {
   }, []);
   return <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
       <main className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-20">
@@ -32,11 +32,11 @@ const Index = () => {
             <img 
               src={gloriaeIcon} 
               alt="Gloriae Musica" 
-              className="w-32 h-32 mx-auto mb-3 animate-float glow-blue rounded-3xl"
+              className="w-32 h-32 mx-auto mb-3 animate-float glow-blue rounded-3xl drop-shadow-2xl"
             />
           </div>
 
-          <h1 className="text-8xl font-bold text-gradient-animated leading-tight font-horizon md:text-9xl -my-2">
+          <h1 className="text-8xl font-bold text-gradient-animated leading-tight font-horizon md:text-9xl -my-2 drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
             Gloriae Musica
           </h1>
 
@@ -78,10 +78,10 @@ const Index = () => {
             title: "Community Driven",
             desc: "Request songs and share feedback",
             icon: Users
-          }].map((feature, i) => <div key={i} className="glass-card p-6 rounded-lg hover:scale-105 transition-all glow-blue scroll-fade-in" style={{
+          }].map((feature, i) => <div key={i} className="glass-card backdrop-blur-md p-6 rounded-lg hover:scale-105 transition-all glow-blue scroll-fade-in" style={{
             animationDelay: `${i * 0.1}s`
           }}>
-                <feature.icon className="w-12 h-12 text-primary mx-auto mb-4" />
+                <feature.icon className="w-12 h-12 text-primary mx-auto mb-4 drop-shadow-lg" />
                 <h3 className="text-xl font-semibold text-primary mb-2 font-sans">
                   {feature.title}
                 </h3>
