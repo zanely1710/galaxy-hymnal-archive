@@ -11,6 +11,7 @@ import UploadMusicSheet from "@/components/admin/UploadMusicSheet";
 import ManageCategories from "@/components/admin/ManageCategories";
 import SongRequests from "@/components/admin/SongRequests";
 import SendNotification from "@/components/admin/SendNotification";
+import ManageUsers from "@/components/admin/ManageUsers";
 
 interface Stats {
   totalSheets: number;
@@ -35,12 +36,21 @@ interface SongRequest {
   } | null;
 }
 
+interface UserProfile {
+  id: string;
+  name: string | null;
+  email: string;
+  created_at: string;
+  user_roles: { role: string }[];
+}
+
 export default function Dashboard() {
   const { isAdmin, loading } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState<Stats>({ totalSheets: 0, totalUsers: 0, pendingRequests: 0 });
   const [categories, setCategories] = useState<Category[]>([]);
   const [requests, setRequests] = useState<SongRequest[]>([]);
+  const [users, setUsers] = useState<UserProfile[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
@@ -86,6 +96,17 @@ export default function Dashboard() {
         .order('created_at', { ascending: false });
 
       if (requestsData) setRequests(requestsData);
+
+      // Fetch users
+      const { data: usersData } = await supabase
+        .from('profiles')
+        .select(`
+          *,
+          user_roles (role)
+        `)
+        .order('created_at', { ascending: false });
+
+      if (usersData) setUsers(usersData);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -165,10 +186,11 @@ export default function Dashboard() {
 
         {/* Management Tabs */}
         <Tabs defaultValue="upload" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-          <TabsList className="grid w-full grid-cols-4 bg-card">
+          <TabsList className="grid w-full grid-cols-5 bg-card">
             <TabsTrigger value="upload">Upload Music</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="requests">Requests</TabsTrigger>
+            <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
           </TabsList>
 
@@ -182,6 +204,10 @@ export default function Dashboard() {
 
           <TabsContent value="requests">
             <SongRequests requests={requests} onUpdate={fetchData} />
+          </TabsContent>
+
+          <TabsContent value="users">
+            <ManageUsers users={users} onUpdate={fetchData} />
           </TabsContent>
 
           <TabsContent value="notifications">

@@ -11,12 +11,16 @@ import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -29,17 +33,33 @@ export default function Auth() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (password !== confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Passwords don't match",
+        description: "Please make sure both passwords are the same",
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        variant: "destructive",
+        title: "Password too short",
+        description: "Password must be at least 6 characters",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const redirectUrl = `${window.location.origin}/`;
-
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { name },
-          emailRedirectTo: redirectUrl,
         },
       });
 
@@ -47,7 +67,7 @@ export default function Auth() {
 
       toast({
         title: "Account created!",
-        description: "Please check your email to verify your account before signing in.",
+        description: "You can now sign in with your credentials.",
       });
 
       navigate("/");
@@ -129,14 +149,29 @@ export default function Auth() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password-signin">Password</Label>
-                    <Input
-                      id="password-signin"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      className="bg-background"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password-signin"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="bg-background pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
                   <Button type="submit" className="w-full glow-blue" disabled={loading}>
                     {loading ? "Signing in..." : "Sign In"}
@@ -172,22 +207,61 @@ export default function Auth() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password-signup">Password</Label>
-                    <Input
-                      id="password-signup"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      className="bg-background"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password-signup"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        minLength={6}
+                        className="bg-background pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password">Confirm Password</Label>
+                    <div className="relative">
+                      <Input
+                        id="confirm-password"
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        minLength={6}
+                        className="bg-background pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
                   <Button type="submit" className="w-full glow-blue" disabled={loading}>
                     {loading ? "Creating account..." : "Create Account"}
                   </Button>
-                  <p className="text-xs text-muted-foreground text-center">
-                    You'll receive a verification email after signing up
-                  </p>
                 </form>
               </TabsContent>
             </Tabs>
