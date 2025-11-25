@@ -143,7 +143,7 @@ export default function Archive() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Music Archive
           </h1>
-          <p className="text-lg text-foreground">
+          <p className="text-lg text-white">
             Browse and download sacred liturgical music
           </p>
         </div>
