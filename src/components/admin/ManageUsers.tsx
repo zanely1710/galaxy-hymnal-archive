@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Mail, User, Shield, RotateCcw } from "lucide-react";
+import { Mail, User, Shield, RotateCcw, UserCog } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +33,7 @@ export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
   const { toast } = useToast();
   const [resetUserId, setResetUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [roleChangeUserId, setRoleChangeUserId] = useState<string | null>(null);
 
   const handlePasswordReset = async (email: string) => {
     setLoading(true);
@@ -52,6 +53,44 @@ export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
       toast({
         variant: "destructive",
         title: "Failed to send reset email",
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRoleToggle = async (userId: string, currentRole: string) => {
+    setLoading(true);
+    try {
+      const newRole = currentRole === 'admin' ? 'user' : 'admin';
+      
+      // Delete old role
+      const { error: deleteError } = await supabase
+        .from('user_roles')
+        .delete()
+        .eq('user_id', userId);
+
+      if (deleteError) throw deleteError;
+
+      // Insert new role
+      const { error: insertError } = await supabase
+        .from('user_roles')
+        .insert({ user_id: userId, role: newRole });
+
+      if (insertError) throw insertError;
+
+      toast({
+        title: "Role updated",
+        description: `User role changed to ${newRole}`,
+      });
+      
+      setRoleChangeUserId(null);
+      onUpdate();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Failed to update role",
         description: error.message,
       });
     } finally {
@@ -107,15 +146,26 @@ export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
                     {new Date(user.created_at).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setResetUserId(user.id)}
-                      className="gap-2"
-                    >
-                      <RotateCcw className="w-4 h-4" />
-                      Reset Password
-                    </Button>
+                    <div className="flex gap-2 justify-end">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setRoleChangeUserId(user.id)}
+                        className="gap-2"
+                      >
+                        <UserCog className="w-4 h-4" />
+                        Toggle Admin
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setResetUserId(user.id)}
+                        className="gap-2"
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                        Reset Password
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -123,30 +173,59 @@ export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
           </Table>
         </div>
 
-        {resetUserId && (
-          <AlertDialog open={!!resetUserId} onOpenChange={() => setResetUserId(null)}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Send Password Reset Email?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This will send a password reset link to the user's email address. They will be able to set a new password.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => {
-                    const user = users.find(u => u.id === resetUserId);
-                    if (user) handlePasswordReset(user.email);
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? "Sending..." : "Send Reset Email"}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
+        <AlertDialog open={!!resetUserId} onOpenChange={() => setResetUserId(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Send Password Reset Email?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will send a password reset link to the user's email address. They will be able to set a new password.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  const user = users.find(u => u.id === resetUserId);
+                  if (user) handlePasswordReset(user.email);
+                }}
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Reset Email"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog open={!!roleChangeUserId} onOpenChange={() => setRoleChangeUserId(null)}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Change User Role?</AlertDialogTitle>
+              <AlertDialogDescription>
+                {(() => {
+                  const user = users.find(u => u.id === roleChangeUserId);
+                  const currentRole = user?.user_roles[0]?.role || 'user';
+                  const newRole = currentRole === 'admin' ? 'user' : 'admin';
+                  return `This will change the user's role from "${currentRole}" to "${newRole}".`;
+                })()}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  const user = users.find(u => u.id === roleChangeUserId);
+                  if (user) {
+                    const currentRole = user.user_roles[0]?.role || 'user';
+                    handleRoleToggle(user.id, currentRole);
+                  }
+                }}
+                disabled={loading}
+              >
+                {loading ? "Updating..." : "Update Role"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </CardContent>
     </Card>
   );
