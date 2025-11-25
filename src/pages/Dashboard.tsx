@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Music, Users, MessageSquare } from "lucide-react";
@@ -107,6 +108,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+      <Galaxy3D />
       <Navigation />
 
       <main className="container mx-auto px-4 pt-24 pb-16">

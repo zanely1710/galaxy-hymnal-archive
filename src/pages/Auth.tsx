@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 
@@ -92,6 +93,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+      <Galaxy3D />
       <Navigation />
 
       <div className="flex items-center justify-center min-h-screen px-4 pt-20">

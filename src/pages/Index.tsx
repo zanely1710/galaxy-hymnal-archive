@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Library, Music4, Heart, Users, Gift } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { useEffect, useRef } from "react";
 
 const Index = () => {
@@ -27,6 +28,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-blue-50">
+      <Galaxy3D />
       <Navigation />
 
       <main className="flex flex-col items-center justify-center min-h-screen px-4 pt-20">

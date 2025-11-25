@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
+import Galaxy3D from "@/components/Galaxy3D";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,6 +80,7 @@ export default function RequestSong() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Galaxy3D />
       <Navigation />
 
       <main className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
