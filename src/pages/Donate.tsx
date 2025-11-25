@@ -22,7 +22,7 @@ export default function Donate() {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           className="mb-4"
         >
           <X className="w-4 h-4" />
