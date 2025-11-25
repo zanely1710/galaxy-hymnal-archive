@@ -4,6 +4,7 @@ import { Library, Music4, Heart, Users, Gift } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { useEffect, useRef } from "react";
+import gloriaeIcon from "@/assets/gloriae-icon.png";
 const Index = () => {
   const featuresRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -28,7 +29,11 @@ const Index = () => {
       <main className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-20">
         <div className="text-center space-y-4 max-w-5xl mx-auto animate-fade-in">
           <div className="inline-block">
-            <Music4 className="w-24 h-24 text-primary mx-auto mb-3 animate-float glow-blue" />
+            <img 
+              src={gloriaeIcon} 
+              alt="Gloriae Musica" 
+              className="w-32 h-32 mx-auto mb-3 animate-float glow-blue rounded-3xl"
+            />
           </div>
 
           <h1 className="text-8xl font-bold text-gradient-animated leading-tight font-sans md:text-9xl -my-2">
