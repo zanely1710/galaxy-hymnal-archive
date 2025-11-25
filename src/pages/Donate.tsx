@@ -39,9 +39,9 @@ export default function Donate() {
 
         <Card className="glass-card glow-blue p-8 space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-2">Donate via PayMaya</h2>
+            <h2 className="text-2xl font-semibold mb-2">Support Our Mission</h2>
             <p className="text-sm text-muted-foreground mb-6">
-              Send your donation to our PayMaya account
+              You can send donations via PayMaya, GCash to Maya, or bank transfer to the account below
             </p>
           </div>
 
@@ -101,6 +101,7 @@ export default function Donate() {
           <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 mt-6">
             <p className="text-sm text-center">
               Every donation, no matter the size, helps us continue providing free access to sacred music. 
+              You can use PayMaya, GCash to Maya, bank transfer, or any payment method that works for you.
               For custom donation options or inquiries, feel free to reach out via email.
               Thank you for your generosity! 🙏
             </p>
