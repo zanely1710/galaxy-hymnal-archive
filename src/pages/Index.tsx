@@ -38,7 +38,7 @@ const Index = () => {
             Where Faith Meets Harmony
           </p>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-white max-w-2xl mx-auto">
             Explore our free, open-access archive of sacred liturgical music sheets.
             Discover timeless compositions and share in the beauty of sacred music.
           </p>
