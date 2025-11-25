@@ -66,7 +66,7 @@ export default function Reflections() {
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Spiritual Reflections
           </h1>
-          <p className="text-lg text-foreground">
+          <p className="text-lg text-white">
             Inspired by the warmth of Kape't Pandesal
           </p>
         </div>
