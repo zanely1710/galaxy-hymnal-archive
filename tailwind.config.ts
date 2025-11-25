@@ -74,7 +74,7 @@ export default {
   				'sans-serif'
   			],
   			horizon: [
-  				'Orbitron',
+  				'Saira Expanded',
   				'system-ui',
   				'sans-serif'
   			],
