@@ -3,14 +3,21 @@ import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSqua
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import NotificationButton from "./NotificationButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import gloriaeLogoImage from "@/assets/gloriae-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function Navigation() {
   const { user, isAdmin, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem('nav-collapsed');
+    return saved === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('nav-collapsed', isCollapsed.toString());
+  }, [isCollapsed]);
 
   return (
     <>

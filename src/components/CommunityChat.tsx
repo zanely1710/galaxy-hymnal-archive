@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Send, Trash2 } from "lucide-react";
+import { MessageSquare, Send, Trash2, ChevronRight, ChevronLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 
@@ -24,9 +24,17 @@ export default function CommunityChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    const saved = localStorage.getItem('chat-collapsed');
+    return saved === 'true';
+  });
   const { user } = useAuth();
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    localStorage.setItem('chat-collapsed', isCollapsed.toString());
+  }, [isCollapsed]);
 
   useEffect(() => {
     if (!user) return;
@@ -147,13 +155,39 @@ export default function CommunityChat() {
 
   if (!user) return null;
 
+  if (isCollapsed) {
+    return (
+      <div className="glass-card p-2 flex items-center justify-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsCollapsed(false)}
+          className="gap-2"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <MessageSquare className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <Card className="glass-card h-[600px] flex flex-col">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-display">
-          <MessageSquare className="w-5 h-5" />
-          Community Chat
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 font-display">
+            <MessageSquare className="w-5 h-5" />
+            Community Chat
+          </CardTitle>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsCollapsed(true)}
+            title="Minimize chat"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden">
         <ScrollArea className="flex-1 pr-4" ref={scrollRef}>
