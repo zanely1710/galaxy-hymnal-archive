@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import NotificationButton from "./NotificationButton";
 import { useState } from "react";
+import gloriaeLogoImage from "@/assets/gloriae-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function Navigation() {
@@ -18,7 +19,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <Music className="w-6 h-6 md:w-8 md:h-8 text-primary group-hover:scale-110 transition-transform" />
+            <img src={gloriaeLogoImage} alt="Gloriae Musica" className="w-8 h-8 md:w-12 md:h-12 group-hover:scale-110 transition-transform" />
             <span className="font-bold text-gradient-animated font-sans text-2xl md:text-4xl">
               Gloriae Musica
             </span>
