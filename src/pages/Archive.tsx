@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Search, Download, Music, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import EditMusicSheet from "@/components/admin/EditMusicSheet";
 
 interface MusicSheet {
   id: string;
@@ -28,6 +29,7 @@ interface MusicSheet {
   file_url: string | null;
   thumbnail_url: string | null;
   created_at: string;
+  category_id: string | null;
   categories: { name: string } | null;
 }
 
@@ -226,11 +228,11 @@ export default function Archive() {
                       {sheet.description}
                     </p>
                   )}
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {sheet.file_url && (
                       <Button
                         size="sm"
-                        className="flex-1 glow-blue"
+                        className="flex-1 min-w-[120px] glow-blue"
                         onClick={() => window.open(sheet.file_url!, "_blank")}
                       >
                         <Download className="w-4 h-4 mr-2" />
@@ -238,13 +240,20 @@ export default function Archive() {
                       </Button>
                     )}
                     {isAdmin && (
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => setDeleteId(sheet.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+                      <>
+                        <EditMusicSheet
+                          sheet={sheet}
+                          categories={categories}
+                          onUpdate={fetchData}
+                        />
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => setDeleteId(sheet.id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </>
                     )}
                   </div>
                 </CardContent>

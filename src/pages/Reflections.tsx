@@ -4,19 +4,55 @@ import Galaxy3D from "@/components/Galaxy3D";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Reflections() {
   const [reflection, setReflection] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const { toast } = useToast();
 
   const generateReflection = async () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Sign in required",
+        description: "Please sign in to generate reflections",
+      });
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      setReflection(
-        "Like a warm cup of coffee in the morning, faith nourishes our souls. In the midst of our busy lives, let us pause and remember: God's grace is always present, gentle as a sunrise, constant as the morning dew. May your day be blessed with peace and harmony."
-      );
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-reflection", {
+        headers: {
+          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+        },
+      });
+
+      if (error) {
+        if (error.message.includes("429")) {
+          throw new Error("Rate limit exceeded. Please try again later.");
+        }
+        if (error.message.includes("402")) {
+          throw new Error("Payment required. Please add credits to continue.");
+        }
+        throw error;
+      }
+
+      setReflection(data.reflection);
+    } catch (error: any) {
+      console.error("Error generating reflection:", error);
+      toast({
+        variant: "destructive",
+        title: "Generation failed",
+        description: error.message || "Failed to generate reflection",
+      });
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
