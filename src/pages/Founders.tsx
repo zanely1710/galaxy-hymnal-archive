@@ -31,7 +31,7 @@ export default function Founders() {
               </div>
               <CardContent className="md:w-2/3 p-8">
                 <h2 className="text-3xl font-bold text-primary mb-2">Sem. Eleandre John Del Rosario</h2>
-                <p className="text-accent font-semibold mb-4">Founder & Creator       </p>
+                <p className="text-accent font-semibold mb-4">Founder & Creator                     </p>
                 
                 <div className="space-y-4 text-foreground">
                   <p>
