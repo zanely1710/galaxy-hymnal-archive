@@ -31,14 +31,14 @@ export default function Founders() {
               </div>
               <CardContent className="md:w-2/3 p-8">
                 <h2 className="text-3xl font-bold text-primary mb-2">Sem. Eleandre John Del Rosario</h2>
-                <p className="text-accent font-semibold mb-4">Founder & Creator                     </p>
+                <p className="text-yellow-400 font-semibold mb-4">Founder & Creator</p>
                 
                 <div className="space-y-4 text-foreground">
                   <p>
                     A dedicated seminarian and passionate advocate for sacred music, Sem. Eleandre John has devoted his ministry to preserving and sharing the rich tradition of liturgical music within the Catholic Church.
                   </p>
                   <p>
-                      His deep love for both traditional and contemporary sacred compositions, he founded Gloriae Musica to create a free, accessible resource for parishes, choirs, and music ministers around the Philippines.
+                      His deep love for both traditional and contemporary sacred compositions, he founded Gloriae Musica to create a free, accessible resource for parishes, choirs, and music ministers around the Philippines.
                   </p>
                   <p>
                     His vision is to make quality sacred music available to all, fostering deeper worship and bringing 
