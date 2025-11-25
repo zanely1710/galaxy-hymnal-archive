@@ -12,6 +12,7 @@ import Reflections from "./pages/Reflections";
 import Dashboard from "./pages/Dashboard";
 import RequestSong from "./pages/RequestSong";
 import Founders from "./pages/Founders";
+import Donate from "./pages/Donate";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/founders" element={<Founders />} />
+            <Route path="/donate" element={<Donate />} />
             <Route
               path="/archive"
               element={
