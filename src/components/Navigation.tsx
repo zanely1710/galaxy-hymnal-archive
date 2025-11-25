@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X } from "lucide-react";
+import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import NotificationButton from "./NotificationButton";
@@ -9,11 +9,13 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 export default function Navigation() {
   const { user, isAdmin, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border">
-      <div className="container mx-auto px-4 py-3 md:py-4">
-        <div className="flex items-center justify-between">
+    <>
+      <nav className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-300 ${isCollapsed ? '-top-full' : 'top-0'}`}>
+        <div className="container mx-auto px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <Music className="w-6 h-6 md:w-8 md:h-8 text-primary group-hover:scale-110 transition-transform" />
@@ -164,8 +166,20 @@ export default function Navigation() {
               </SheetContent>
             </Sheet>
           </div>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Toggle Button */}
+      <Button
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        size="icon"
+        variant="outline"
+        className={`fixed right-4 z-50 transition-all duration-300 glass-card glow-blue ${isCollapsed ? 'top-4' : 'top-20'}`}
+        title={isCollapsed ? "Show navigation" : "Hide navigation"}
+      >
+        {isCollapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+      </Button>
+    </>
   );
 }
