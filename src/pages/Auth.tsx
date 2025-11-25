@@ -112,12 +112,13 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+    <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <div className="flex items-center justify-center min-h-screen px-4 pt-20">
-        <Card className="w-full max-w-md glass-card glow-blue animate-fade-in-up">
+      <div className="relative flex items-center justify-center min-h-screen px-4 pt-20">
+        <Card className="w-full max-w-md glass-card backdrop-blur-md glow-blue animate-fade-in-up">
           <CardHeader className="text-center">
             <CardTitle className="font-display text-3xl text-gradient-blue">
               Join Gloriae Musica

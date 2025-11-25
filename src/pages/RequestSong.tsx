@@ -79,11 +79,12 @@ export default function RequestSong() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="container mx-auto px-4 pt-24 pb-16 max-w-3xl">
+      <main className="relative container mx-auto px-4 pt-24 pb-16 max-w-3xl">
         <div className="mb-8 animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Request a Song
@@ -93,7 +94,7 @@ export default function RequestSong() {
           </p>
         </div>
 
-        <Card className="glass-card glow-blue animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+        <Card className="glass-card backdrop-blur-md glow-blue animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-display text-primary">
               <Music className="w-6 h-6" />

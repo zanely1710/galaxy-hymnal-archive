@@ -131,11 +131,12 @@ export default function Archive() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <main className="relative container mx-auto px-4 pt-24 pb-16">
         <div className="mb-8 animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Music Archive
@@ -196,7 +197,7 @@ export default function Archive() {
             {filteredSheets.map((sheet, index) => (
               <Card 
                 key={sheet.id} 
-                className="glass-card hover:scale-105 transition-all glow-blue animate-fade-in-up"
+                className="glass-card backdrop-blur-md hover:scale-105 transition-all glow-blue animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <CardHeader>

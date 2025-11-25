@@ -128,11 +128,12 @@ export default function Dashboard() {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-blue-50">
+    <div className="min-h-screen bg-transparent relative">
       <Galaxy3D />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <main className="relative container mx-auto px-4 pt-24 pb-16">
         <div className="mb-8 animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Admin Dashboard
@@ -144,7 +145,7 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="glass-card glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          <Card className="glass-card backdrop-blur-md glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-primary">
                 <Music className="w-5 h-5" />
@@ -157,7 +158,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          <Card className="glass-card backdrop-blur-md glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-secondary">
                 <Users className="w-5 h-5" />
@@ -170,7 +171,7 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card glow-gold hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          <Card className="glass-card backdrop-blur-md glow-gold hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-display text-accent">
                 <MessageSquare className="w-5 h-5" />
