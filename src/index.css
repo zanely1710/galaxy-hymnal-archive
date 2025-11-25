@@ -64,7 +64,7 @@ All colors MUST be HSL.
 
   /* Text gradients */
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-primary via-light-blue to-primary bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-blue-400 to-primary bg-clip-text text-transparent;
   }
   
   .text-gradient-gold {
@@ -72,7 +72,7 @@ All colors MUST be HSL.
   }
 
   .text-gradient-animated {
-    @apply bg-gradient-to-r from-white via-primary via-accent to-white bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white via-blue-400 via-amber-400 to-white bg-clip-text text-transparent;
     background-size: 200% auto;
     animation: gradient-shift 3s ease infinite;
   }
