@@ -144,10 +144,9 @@ export default function EditMusicSheet({ sheet, categories, onUpdate }: EditMusi
               <Label htmlFor="category">Category</Label>
               <Select value={categoryId} onValueChange={setCategoryId}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
+                  <SelectValue placeholder="Select category (optional)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">No category</SelectItem>
                   {categories.map((cat) => (
                     <SelectItem key={cat.id} value={cat.id}>
                       {cat.name}
