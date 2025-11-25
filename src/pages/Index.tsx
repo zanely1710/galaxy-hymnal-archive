@@ -27,7 +27,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-blue-50">
+    <div className="min-h-screen bg-transparent">
       <Galaxy3D />
       <Navigation />
 
