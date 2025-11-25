@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Mail, User, Shield, RotateCcw, UserCog } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,9 +32,33 @@ interface ManageUsersProps {
 
 export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [resetUserId, setResetUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [roleChangeUserId, setRoleChangeUserId] = useState<string | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+
+  useEffect(() => {
+    checkSuperAdmin();
+  }, [user]);
+
+  const checkSuperAdmin = async () => {
+    if (!user) return;
+    
+    const { data } = await supabase
+      .from('profiles')
+      .select('email')
+      .eq('id', user.id)
+      .single();
+    
+    if (data) {
+      const superAdminEmails = [
+        'ejdelrosario.jhs@assumptaseminary.ph.education',
+        'eleandrejohn503@gmail.com'
+      ];
+      setIsSuperAdmin(superAdminEmails.includes(data.email));
+    }
+  };
 
   const handlePasswordReset = async (email: string) => {
     setLoading(true);
@@ -147,15 +172,17 @@ export default function ManageUsers({ users, onUpdate }: ManageUsersProps) {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex gap-2 justify-end">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setRoleChangeUserId(user.id)}
-                        className="gap-2"
-                      >
-                        <UserCog className="w-4 h-4" />
-                        Toggle Admin
-                      </Button>
+                      {isSuperAdmin && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setRoleChangeUserId(user.id)}
+                          className="gap-2"
+                        >
+                          <UserCog className="w-4 h-4" />
+                          Toggle Admin
+                        </Button>
+                      )}
                       <Button
                         variant="outline"
                         size="sm"

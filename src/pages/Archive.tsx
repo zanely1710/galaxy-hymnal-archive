@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import CommunityChat from "@/components/CommunityChat";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,7 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Search, Download, Music, Trash2 } from "lucide-react";
+import { Search, Download, Music, Trash2, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import EditMusicSheet from "@/components/admin/EditMusicSheet";
 
@@ -45,8 +46,9 @@ export default function Archive() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
   const { toast } = useToast();
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
 
   useEffect(() => {
     fetchData();
@@ -138,7 +140,8 @@ export default function Archive() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
       <Navigation />
 
-      <main className="relative container mx-auto px-4 pt-24 pb-16">
+      <div className="flex relative">
+        <main className="relative container mx-auto px-4 pt-24 pb-16 flex-1">
         <div className="mb-8 animate-fade-in-up">
           <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
             Music Archive
@@ -261,7 +264,47 @@ export default function Archive() {
             ))}
           </div>
         )}
-      </main>
+        </main>
+
+        {/* Chat Sidebar - Desktop */}
+        {user && (
+          <aside className="hidden lg:block w-96 pt-24 pb-16 pr-4 relative">
+            <div className="sticky top-24">
+              <CommunityChat />
+            </div>
+          </aside>
+        )}
+
+        {/* Chat Toggle - Mobile */}
+        {user && (
+          <div className="lg:hidden fixed bottom-4 right-4 z-40">
+            <Button
+              onClick={() => setShowChat(!showChat)}
+              size="lg"
+              className="rounded-full w-14 h-14 shadow-lg glow-blue"
+            >
+              <MessageSquare className="w-6 h-6" />
+            </Button>
+          </div>
+        )}
+
+        {/* Chat Modal - Mobile */}
+        {showChat && user && (
+          <div className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-sm p-4">
+            <div className="h-full flex flex-col">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold text-primary">Community Chat</h2>
+                <Button variant="ghost" onClick={() => setShowChat(false)}>
+                  Close
+                </Button>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <CommunityChat />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
         <AlertDialogContent>
