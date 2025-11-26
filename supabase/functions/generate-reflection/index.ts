@@ -12,9 +12,20 @@ serve(async (req) => {
   }
 
   try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_PUBLISHABLE_KEY");
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error("Missing Supabase credentials:", { 
+        hasUrl: !!supabaseUrl, 
+        hasKey: !!supabaseKey 
+      });
+      throw new Error("Supabase configuration missing");
+    }
+
     const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+      supabaseUrl,
+      supabaseKey,
       {
         global: {
           headers: { Authorization: req.headers.get("Authorization")! },
@@ -37,9 +48,11 @@ serve(async (req) => {
     // Generate a unique reflection using Lovable AI
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
+      console.error("LOVABLE_API_KEY not configured");
       throw new Error("LOVABLE_API_KEY not configured");
     }
 
+    console.log("Calling Lovable AI Gateway...");
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -128,8 +141,12 @@ Each reflection must be completely unique and original. Never repeat themes or p
     });
   } catch (error) {
     console.error("Error in generate-reflection:", error);
+    console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ 
+        error: error instanceof Error ? error.message : "Unknown error occurred",
+        details: error instanceof Error ? error.stack : undefined
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
