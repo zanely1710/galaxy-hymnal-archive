@@ -13,7 +13,7 @@ serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseKey = Deno.env.get("SUPABASE_PUBLISHABLE_KEY");
+    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
     
     if (!supabaseUrl || !supabaseKey) {
       console.error("Missing Supabase credentials:", { 
@@ -23,6 +23,7 @@ serve(async (req) => {
       throw new Error("Supabase configuration missing");
     }
 
+    console.log("Creating Supabase client...");
     const supabaseClient = createClient(
       supabaseUrl,
       supabaseKey,
