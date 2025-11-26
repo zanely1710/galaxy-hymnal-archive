@@ -12,14 +12,24 @@ serve(async (req) => {
   }
 
   try {
+    // Get auth header from request
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      console.error("No Authorization header found");
+      return new Response(
+        JSON.stringify({ error: "Unauthorized - No auth token provided" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
     
     if (!supabaseUrl || !supabaseKey) {
-      console.error("Missing Supabase credentials:", { 
-        hasUrl: !!supabaseUrl, 
-        hasKey: !!supabaseKey 
-      });
+      console.error("Missing Supabase credentials");
       throw new Error("Supabase configuration missing");
     }
 
@@ -29,22 +39,41 @@ serve(async (req) => {
       supabaseKey,
       {
         global: {
-          headers: { Authorization: req.headers.get("Authorization")! },
+          headers: { Authorization: authHeader },
         },
       }
     );
 
     // Get the authenticated user
+    console.log("Getting authenticated user...");
     const {
       data: { user },
       error: userError,
     } = await supabaseClient.auth.getUser();
 
-    if (userError || !user) {
-      throw new Error("Unauthorized");
+    if (userError) {
+      console.error("Auth error:", userError);
+      return new Response(
+        JSON.stringify({ error: "Authentication failed", details: userError.message }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
     }
 
-    console.log("Generating reflection for user:", user.id);
+    if (!user) {
+      console.error("No user found after auth check");
+      return new Response(
+        JSON.stringify({ error: "Unauthorized - Invalid or expired token" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    console.log("User authenticated:", user.id);
 
     // Generate a unique reflection using Lovable AI
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");

@@ -26,29 +26,34 @@ export default function Reflections() {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-reflection", {
-        headers: {
-          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
-        },
-      });
+      const { data, error } = await supabase.functions.invoke("generate-reflection");
 
       if (error) {
-        if (error.message.includes("429")) {
+        console.error("Function error:", error);
+        if (error.message?.includes("429")) {
           throw new Error("Rate limit exceeded. Please try again later.");
         }
-        if (error.message.includes("402")) {
+        if (error.message?.includes("402")) {
           throw new Error("Payment required. Please add credits to continue.");
         }
         throw error;
       }
 
+      if (!data || !data.reflection) {
+        throw new Error("No reflection data received");
+      }
+
       setReflection(data.reflection);
+      toast({
+        title: "Reflection generated",
+        description: "Your spiritual reflection is ready",
+      });
     } catch (error: any) {
       console.error("Error generating reflection:", error);
       toast({
         variant: "destructive",
         title: "Generation failed",
-        description: error.message || "Failed to generate reflection",
+        description: error.message || "Failed to generate reflection. Please try again.",
       });
     } finally {
       setLoading(false);
