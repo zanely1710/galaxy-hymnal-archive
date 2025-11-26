@@ -128,58 +128,62 @@ export default function Dashboard() {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-transparent relative">
+    <div className="min-h-screen bg-transparent relative particle-bg">
       <Galaxy3D />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-blue-950/40 to-blue-900/50 backdrop-blur-md pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-500/15 via-transparent to-transparent pointer-events-none" />
       <Navigation />
 
       <main className="relative container mx-auto px-4 pt-24 pb-16">
-        <div className="mb-8 animate-fade-in-up">
-          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
+        <div className="mb-8 animate-fade-in-down">
+          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4 shimmer hover:scale-105 transition-transform duration-300">
             Admin Dashboard
           </h1>
-          <p className="text-lg text-foreground">
+          <p className="text-lg text-foreground/90 animate-fade-in" style={{animationDelay: "0.1s"}}>
             Manage Gloriae Musica content and users
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="glass-card backdrop-blur-md glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display text-primary">
-                <Music className="w-5 h-5" />
+          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.1s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-2 font-display text-primary group-hover:text-blue-400 transition-colors">
+                <Music className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
                 Music Sheets
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-foreground mb-2">{stats.totalSheets}</p>
+            <CardContent className="relative z-10">
+              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.totalSheets}</p>
               <p className="text-sm text-muted-foreground">Total sheets in archive</p>
             </CardContent>
           </Card>
 
-          <Card className="glass-card backdrop-blur-md glow-blue hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display text-secondary">
-                <Users className="w-5 h-5" />
+          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.2s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-2 font-display text-secondary group-hover:text-blue-300 transition-colors">
+                <Users className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
                 Users
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-foreground mb-2">{stats.totalUsers}</p>
+            <CardContent className="relative z-10">
+              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.totalUsers}</p>
               <p className="text-sm text-muted-foreground">Registered users</p>
             </CardContent>
           </Card>
 
-          <Card className="glass-card backdrop-blur-md glow-gold hover:scale-105 transition-transform animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display text-accent">
-                <MessageSquare className="w-5 h-5" />
+          <Card className="glass-card-intense hover-lift glow-gold group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.3s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center gap-2 font-display text-accent group-hover:text-yellow-400 transition-colors">
+                <MessageSquare className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-pulse-glow" />
                 Song Requests
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold text-foreground mb-2">{stats.pendingRequests}</p>
+            <CardContent className="relative z-10">
+              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.pendingRequests}</p>
               <p className="text-sm text-muted-foreground">Pending requests</p>
             </CardContent>
           </Card>
