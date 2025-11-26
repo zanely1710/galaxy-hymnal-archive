@@ -135,18 +135,19 @@ export default function Archive() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent relative">
+    <div className="min-h-screen bg-transparent relative particle-bg">
       <Galaxy3D />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-blue-950/30 to-blue-900/40 backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-blue-950/40 to-blue-900/50 backdrop-blur-md pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-500/15 via-transparent to-transparent pointer-events-none" />
       <Navigation />
 
       <div className="flex relative">
         <main className="relative container mx-auto px-4 pt-24 pb-16 flex-1">
-        <div className="mb-8 animate-fade-in-up">
-          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4">
+        <div className="mb-8 animate-fade-in-down">
+          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4 shimmer hover:scale-105 transition-transform duration-300">
             Music Archive
           </h1>
-          <p className="text-lg text-white">
+          <p className="text-lg text-white/90 animate-fade-in" style={{animationDelay: "0.1s"}}>
             Browse and download sacred liturgical music
           </p>
         </div>
@@ -202,16 +203,17 @@ export default function Archive() {
             {filteredSheets.map((sheet, index) => (
               <Card 
                 key={sheet.id} 
-                className="glass-card backdrop-blur-md hover:scale-105 transition-all glow-blue animate-fade-in-up"
+                className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <CardHeader>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <CardHeader className="relative z-10">
                   <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="font-display text-xl text-primary">
+                    <CardTitle className="font-display text-xl text-primary group-hover:text-blue-400 transition-colors">
                       {sheet.title}
                     </CardTitle>
                     {isNew(sheet.created_at) && (
-                      <Badge variant="secondary" className="bg-accent text-accent-foreground">
+                      <Badge variant="secondary" className="bg-accent text-accent-foreground animate-pulse-glow">
                         New
                       </Badge>
                     )}
@@ -225,7 +227,7 @@ export default function Archive() {
                     </Badge>
                   )}
                 </CardHeader>
-                <CardContent>
+                <CardContent className="relative z-10">
                   {sheet.description && (
                     <p className="text-sm text-foreground mb-4 line-clamp-2">
                       {sheet.description}
@@ -235,10 +237,10 @@ export default function Archive() {
                     {sheet.file_url && (
                       <Button
                         size="sm"
-                        className="flex-1 min-w-[120px] glow-blue"
+                        className="flex-1 min-w-[120px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer"
                         onClick={() => window.open(sheet.file_url!, "_blank")}
                       >
-                        <Download className="w-4 h-4 mr-2" />
+                        <Download className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />
                         Download
                       </Button>
                     )}
