@@ -55,23 +55,34 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: { name },
+          emailRedirectTo: `${window.location.origin}/`,
         },
       });
 
       if (error) throw error;
 
-      toast({
-        title: "Account created!",
-        description: "You can now sign in with your credentials.",
-      });
-
-      navigate("/");
+      // If auto-confirm is enabled, user should be signed in immediately
+      if (data?.user && data?.session) {
+        toast({
+          title: "Account created!",
+          description: "Welcome to Gloriae Musica!",
+        });
+        navigate("/archive");
+      } else {
+        toast({
+          title: "Account created!",
+          description: "You can now sign in with your credentials.",
+        });
+        // Switch to sign in tab
+        navigate("/auth");
+      }
     } catch (error: any) {
+      console.error("Sign up error:", error);
       toast({
         variant: "destructive",
         title: "Sign up failed",
