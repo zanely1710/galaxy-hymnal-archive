@@ -26,17 +26,19 @@ serve(async (req) => {
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
-    if (!supabaseUrl || !supabaseKey) {
+    if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
       console.error("Missing Supabase credentials");
       throw new Error("Supabase configuration missing");
     }
 
-    console.log("Creating Supabase client...");
-    const supabaseClient = createClient(
+    // Create client for auth verification (with user's token)
+    console.log("Creating Supabase client for auth...");
+    const authClient = createClient(
       supabaseUrl,
-      supabaseKey,
+      supabaseAnonKey,
       {
         global: {
           headers: { Authorization: authHeader },
@@ -50,7 +52,10 @@ serve(async (req) => {
     const {
       data: { user },
       error: userError,
-    } = await supabaseClient.auth.getUser(token);
+    } = await authClient.auth.getUser(token);
+    
+    // Create admin client for database operations (bypasses RLS)
+    const supabaseClient = createClient(supabaseUrl, supabaseServiceKey);
 
     if (userError) {
       console.error("Auth error:", userError);
