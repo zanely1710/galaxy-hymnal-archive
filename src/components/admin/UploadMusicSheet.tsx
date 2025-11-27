@@ -142,9 +142,25 @@ export default function UploadMusicSheet({ categories, events = [], onUploadSucc
 
       if (dbError) throw dbError;
 
+      // Send notification to all users about the new song
+      try {
+        await supabase.functions.invoke('send-notifications', {
+          body: {
+            type: 'new_song',
+            songData: {
+              title: validatedData.title,
+              composer: validatedData.composer || 'Unknown',
+            },
+          },
+        });
+      } catch (notifError) {
+        console.error('Error sending notifications:', notifError);
+        // Don't fail the upload if notification fails
+      }
+
       toast({
         title: "Success!",
-        description: "Music sheet uploaded successfully",
+        description: "Music sheet uploaded successfully and users notified!",
       });
 
       // Reset form
