@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown, Heart } from "lucide-react";
+import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown, Heart, Settings } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import NotificationButton from "./NotificationButton";
@@ -14,7 +14,6 @@ export default function Navigation() {
     const saved = localStorage.getItem('nav-collapsed');
     return saved === 'true';
   });
-  const [showName, setShowName] = useState(true);
 
   useEffect(() => {
     localStorage.setItem('nav-collapsed', isCollapsed.toString());
@@ -26,31 +25,21 @@ export default function Navigation() {
         <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
           <div className="flex items-center justify-between gap-2 md:gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2 min-w-0">
-            <Link 
-              to="/" 
-              className="flex items-center gap-2 group hover:scale-105 transition-all duration-300 shrink-0"
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 group hover:scale-105 transition-all duration-300 min-w-0"
+          >
+            <img 
+              src={gloriaeLogoImage} 
+              alt="Gloriae Musica" 
+              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl shrink-0" 
+            />
+            <span 
+              className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl transition-all duration-500 ease-in-out whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-xs opacity-0 group-hover:opacity-100"
             >
-              <img 
-                src={gloriaeLogoImage} 
-                alt="Gloriae Musica" 
-                className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
-              />
-            </Link>
-            <button
-              onClick={() => setShowName(!showName)}
-              className="hidden md:block text-left min-w-0"
-              aria-label="Toggle site name"
-            >
-              <span 
-                className={`font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl transition-all duration-500 whitespace-nowrap ${
-                  showName ? 'opacity-100 inline-block' : 'opacity-0 w-0 overflow-hidden'
-                }`}
-              >
-                Gloriae Musica
-              </span>
-            </button>
-          </div>
+              Gloriae Musica
+            </span>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap">
@@ -95,6 +84,13 @@ export default function Navigation() {
                   <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
                     <UserCircle className="w-4 h-4" />
                     <span className="text-sm">Profile</span>
+                  </Button>
+                </Link>
+                
+                <Link to="/settings">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
+                    <Settings className="w-4 h-4" />
+                    <span className="text-sm">Settings</span>
                   </Button>
                 </Link>
 
@@ -177,6 +173,20 @@ export default function Navigation() {
                         <Button variant="ghost" className="w-full justify-start gap-2">
                           <Heart className="w-4 h-4" />
                           <span>Donate</span>
+                        </Button>
+                      </Link>
+                      
+                      <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start gap-2">
+                          <UserCircle className="w-4 h-4" />
+                          <span>Profile</span>
+                        </Button>
+                      </Link>
+                      
+                      <Link to="/settings" onClick={() => setMobileMenuOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start gap-2">
+                          <Settings className="w-4 h-4" />
+                          <span>Settings</span>
                         </Button>
                       </Link>
 
