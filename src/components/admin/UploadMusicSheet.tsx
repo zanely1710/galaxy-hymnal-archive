@@ -22,16 +22,28 @@ interface Category {
   name: string;
 }
 
+interface MusicEvent {
+  id: string;
+  title: string;
+  description: string | null;
+  start_date: string;
+  end_date: string;
+  stock_limit: number | null;
+  stock_remaining: number | null;
+}
+
 interface Props {
   categories: Category[];
+  events?: MusicEvent[];
   onUploadSuccess: () => void;
 }
 
-export default function UploadMusicSheet({ categories, onUploadSuccess }: Props) {
+export default function UploadMusicSheet({ categories, events = [], onUploadSuccess }: Props) {
   const [title, setTitle] = useState("");
   const [composer, setComposer] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [eventId, setEventId] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -123,6 +135,7 @@ export default function UploadMusicSheet({ categories, onUploadSuccess }: Props)
           composer: validatedData.composer || null,
           description: validatedData.description || null,
           category_id: validatedData.category_id,
+          event_id: eventId || null,
           file_url: fileUrl,
           thumbnail_url: thumbnailUrl,
         });
@@ -139,6 +152,7 @@ export default function UploadMusicSheet({ categories, onUploadSuccess }: Props)
       setComposer("");
       setDescription("");
       setCategoryId("");
+      setEventId(null);
       setFile(null);
       setThumbnail(null);
       
@@ -212,6 +226,25 @@ export default function UploadMusicSheet({ categories, onUploadSuccess }: Props)
               </SelectContent>
             </Select>
           </div>
+
+          {events.length > 0 && (
+            <div className="space-y-2">
+              <Label htmlFor="event">Event (Optional)</Label>
+              <Select value={eventId || ""} onValueChange={(val) => setEventId(val || null)}>
+                <SelectTrigger className="bg-background/50">
+                  <SelectValue placeholder="No event (regular upload)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">No event (regular upload)</SelectItem>
+                  {events.map((event) => (
+                    <SelectItem key={event.id} value={event.id}>
+                      {event.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

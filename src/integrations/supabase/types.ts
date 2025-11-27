@@ -445,6 +445,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      decrement_event_stock: { Args: { event_id: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -452,6 +453,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_event_active: { Args: { event_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {

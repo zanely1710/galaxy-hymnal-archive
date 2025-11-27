@@ -12,6 +12,7 @@ import ManageCategories from "@/components/admin/ManageCategories";
 import SongRequests from "@/components/admin/SongRequests";
 import SendNotification from "@/components/admin/SendNotification";
 import ManageUsers from "@/components/admin/ManageUsers";
+import ManageEvents from "@/components/admin/ManageEvents";
 
 interface Stats {
   totalSheets: number;
@@ -44,6 +45,17 @@ interface UserProfile {
   user_roles: { role: string }[];
 }
 
+interface MusicEvent {
+  id: string;
+  title: string;
+  description: string | null;
+  start_date: string;
+  end_date: string;
+  stock_limit: number | null;
+  stock_remaining: number | null;
+  created_at: string;
+}
+
 export default function Dashboard() {
   const { isAdmin, loading } = useAuth();
   const navigate = useNavigate();
@@ -51,6 +63,7 @@ export default function Dashboard() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [requests, setRequests] = useState<SongRequest[]>([]);
   const [users, setUsers] = useState<UserProfile[]>([]);
+  const [events, setEvents] = useState<MusicEvent[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
@@ -107,6 +120,14 @@ export default function Dashboard() {
         .order('created_at', { ascending: false });
 
       if (usersData) setUsers(usersData);
+
+      // Fetch events
+      const { data: eventsData } = await supabase
+        .from('music_events')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (eventsData) setEvents(eventsData);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {
@@ -191,16 +212,17 @@ export default function Dashboard() {
 
         {/* Management Tabs */}
         <Tabs defaultValue="upload" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-          <TabsList className="grid w-full grid-cols-5 bg-card">
+          <TabsList className="grid w-full grid-cols-6 bg-card">
             <TabsTrigger value="upload">Upload Music</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="requests">Requests</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="events">Events</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload">
-            <UploadMusicSheet categories={categories} onUploadSuccess={fetchData} />
+            <UploadMusicSheet categories={categories} events={events} onUploadSuccess={fetchData} />
           </TabsContent>
 
           <TabsContent value="categories">
@@ -217,6 +239,10 @@ export default function Dashboard() {
 
           <TabsContent value="notifications">
             <SendNotification />
+          </TabsContent>
+
+          <TabsContent value="events">
+            <ManageEvents events={events} onUpdate={fetchData} />
           </TabsContent>
         </Tabs>
       </main>

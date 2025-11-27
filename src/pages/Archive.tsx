@@ -21,6 +21,7 @@ import {
 import { Search, Download, Music, Trash2, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import EditMusicSheet from "@/components/admin/EditMusicSheet";
+import { cn } from "@/lib/utils";
 
 interface MusicSheet {
   id: string;
@@ -31,7 +32,16 @@ interface MusicSheet {
   thumbnail_url: string | null;
   created_at: string;
   category_id: string | null;
+  event_id: string | null;
   categories: { name: string } | null;
+  music_events: {
+    id: string;
+    title: string;
+    start_date: string;
+    end_date: string;
+    stock_limit: number | null;
+    stock_remaining: number | null;
+  } | null;
 }
 
 interface Category {
@@ -71,7 +81,15 @@ export default function Archive() {
         .from("music_sheets")
         .select(`
           *,
-          categories (name)
+          categories (name),
+          music_events (
+            id,
+            title,
+            start_date,
+            end_date,
+            stock_limit,
+            stock_remaining
+          )
         `)
         .order("created_at", { ascending: false });
 
@@ -104,6 +122,25 @@ export default function Archive() {
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - 7);
     return new Date(createdAt) > weekAgo;
+  };
+
+  const isEventExpired = (sheet: MusicSheet) => {
+    if (!sheet.music_events) return false;
+    const now = new Date();
+    const endDate = new Date(sheet.music_events.end_date);
+    const hasStock = !sheet.music_events.stock_limit || 
+      (sheet.music_events.stock_remaining && sheet.music_events.stock_remaining > 0);
+    return now > endDate || !hasStock;
+  };
+
+  const isEventActive = (sheet: MusicSheet) => {
+    if (!sheet.music_events) return false;
+    const now = new Date();
+    const startDate = new Date(sheet.music_events.start_date);
+    const endDate = new Date(sheet.music_events.end_date);
+    const hasStock = !sheet.music_events.stock_limit || 
+      (sheet.music_events.stock_remaining && sheet.music_events.stock_remaining > 0);
+    return now >= startDate && now <= endDate && hasStock;
   };
 
   const handleDelete = async () => {
@@ -200,24 +237,43 @@ export default function Archive() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredSheets.map((sheet, index) => (
-              <Card 
-                key={sheet.id} 
-                className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden"
-                style={{ animationDelay: `${index * 0.05}s` }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <CardHeader className="relative z-10">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="font-display text-xl text-primary group-hover:text-blue-400 transition-colors">
-                      {sheet.title}
-                    </CardTitle>
-                    {isNew(sheet.created_at) && (
-                      <Badge variant="secondary" className="bg-accent text-accent-foreground animate-pulse-glow">
-                        New
-                      </Badge>
-                    )}
-                  </div>
+            {filteredSheets.map((sheet, index) => {
+              const expired = isEventExpired(sheet);
+              const active = isEventActive(sheet);
+              
+              return (
+                <Card 
+                  key={sheet.id} 
+                  className={cn(
+                    "glass-card-intense group animate-scale-in relative overflow-hidden",
+                    expired ? "grayscale opacity-60 cursor-not-allowed" : "hover-lift",
+                  )}
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardHeader className="relative z-10">
+                    <div className="flex items-start justify-between gap-2 flex-wrap">
+                      <CardTitle className="font-display text-xl text-primary group-hover:text-blue-400 transition-colors">
+                        {sheet.title}
+                      </CardTitle>
+                      <div className="flex gap-2">
+                        {isNew(sheet.created_at) && !expired && (
+                          <Badge variant="secondary" className="bg-accent text-accent-foreground animate-pulse-glow">
+                            New
+                          </Badge>
+                        )}
+                        {active && (
+                          <Badge className="bg-green-500 text-white">
+                            Event: {sheet.music_events?.title}
+                          </Badge>
+                        )}
+                        {expired && (
+                          <Badge variant="destructive">
+                            Event Ended
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
                   {sheet.composer && (
                     <p className="text-sm text-muted-foreground">by {sheet.composer}</p>
                   )}
@@ -227,43 +283,58 @@ export default function Archive() {
                     </Badge>
                   )}
                 </CardHeader>
-                <CardContent className="relative z-10">
-                  {sheet.description && (
-                    <p className="text-sm text-foreground mb-4 line-clamp-2">
-                      {sheet.description}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    {sheet.file_url && (
-                      <Button
-                        size="sm"
-                        className="flex-1 min-w-[120px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer"
-                        onClick={() => window.open(sheet.file_url!, "_blank")}
-                      >
-                        <Download className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />
-                        Download
-                      </Button>
+                  <CardContent className="relative z-10">
+                    {expired && (
+                      <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                        <p className="text-sm font-medium text-destructive">
+                          Event ended - not available anymore
+                        </p>
+                      </div>
                     )}
-                    {isAdmin && (
-                      <>
-                        <EditMusicSheet
-                          sheet={sheet}
-                          categories={categories}
-                          onUpdate={fetchData}
-                        />
+                    {active && sheet.music_events && sheet.music_events.stock_limit && (
+                      <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
+                        <p className="text-sm font-medium text-green-600">
+                          Limited Stock: {sheet.music_events.stock_remaining}/{sheet.music_events.stock_limit} remaining
+                        </p>
+                      </div>
+                    )}
+                    {sheet.description && (
+                      <p className="text-sm text-foreground mb-4 line-clamp-2">
+                        {sheet.description}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {sheet.file_url && !expired && (
                         <Button
                           size="sm"
-                          variant="destructive"
-                          onClick={() => setDeleteId(sheet.id)}
+                          className="flex-1 min-w-[120px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer"
+                          onClick={() => window.open(sheet.file_url!, "_blank")}
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Download className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />
+                          Download
                         </Button>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      )}
+                      {isAdmin && (
+                        <>
+                          <EditMusicSheet
+                            sheet={sheet}
+                            categories={categories}
+                            onUpdate={fetchData}
+                          />
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => setDeleteId(sheet.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
         </main>
