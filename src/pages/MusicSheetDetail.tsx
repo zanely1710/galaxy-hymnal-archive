@@ -34,6 +34,7 @@ export default function MusicSheetDetail() {
   const navigate = useNavigate();
   const [sheet, setSheet] = useState<MusicSheet | null>(null);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -70,6 +71,53 @@ export default function MusicSheetDetail() {
       navigate("/archive");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!sheet?.file_url) return;
+
+    setDownloading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to download music sheets",
+          variant: "destructive",
+        });
+        navigate("/auth");
+        return;
+      }
+
+      // Call edge function to handle download and stock decrement
+      const { data, error } = await supabase.functions.invoke('download-event-sheet', {
+        body: { musicSheetId: sheet.id }
+      });
+
+      if (error) throw error;
+
+      if (data?.fileUrl) {
+        // Open the file in a new tab
+        window.open(data.fileUrl, '_blank');
+        
+        toast({
+          title: "Success",
+          description: data.message || "Download started",
+        });
+
+        // Refresh the sheet data to show updated stock
+        await fetchSheet();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Download Error",
+        description: error.message || "Failed to download music sheet",
+        variant: "destructive",
+      });
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -176,10 +224,11 @@ export default function MusicSheetDetail() {
                   <Button
                     size="lg"
                     className="w-full glow-blue"
-                    onClick={() => window.open(sheet.file_url!, "_blank")}
+                    onClick={handleDownload}
+                    disabled={downloading}
                   >
                     <Download className="w-5 h-5 mr-2" />
-                    Download Music Sheet
+                    {downloading ? "Processing..." : "Download Music Sheet"}
                   </Button>
                 )}
               </CardContent>
