@@ -23,22 +23,28 @@ export default function Navigation() {
   return (
     <>
       <nav className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-300 ${isCollapsed ? '-top-full' : 'top-0'}`}>
-        <div className="container mx-auto px-4 py-3 md:py-4">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
+          <div className="flex items-center justify-between gap-2 md:gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setShowName(!showName)}
-              className="flex items-center gap-2 group hover:scale-105 transition-all duration-300"
+          <div className="flex items-center gap-2 min-w-0">
+            <Link 
+              to="/" 
+              className="flex items-center gap-2 group hover:scale-105 transition-all duration-300 shrink-0"
             >
               <img 
                 src={gloriaeLogoImage} 
                 alt="Gloriae Musica" 
-                className="w-8 h-8 md:w-12 md:h-12 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
+                className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
               />
+            </Link>
+            <button
+              onClick={() => setShowName(!showName)}
+              className="hidden md:block text-left min-w-0"
+              aria-label="Toggle site name"
+            >
               <span 
-                className={`font-bold text-gradient-animated font-sans text-2xl md:text-4xl transition-all duration-500 ${
-                  showName ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0 overflow-hidden'
+                className={`font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl transition-all duration-500 whitespace-nowrap ${
+                  showName ? 'opacity-100 inline-block' : 'opacity-0 w-0 overflow-hidden'
                 }`}
               >
                 Gloriae Musica
@@ -47,56 +53,56 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap">
             <Link to="/founders">
-              <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+              <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
                 <Info className="w-4 h-4" />
-                <span>About</span>
+                <span className="text-sm">About</span>
               </Button>
             </Link>
 
             {user && (
               <>
                 <Link to="/archive">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
                     <Library className="w-4 h-4" />
-                    <span>Archive</span>
+                    <span className="text-sm">Archive</span>
                   </Button>
                 </Link>
 
                 <Link to="/reflections">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-secondary transition-colors">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-secondary transition-colors px-2 xl:px-3">
                     <Sparkles className="w-4 h-4" />
-                    <span>Reflections</span>
+                    <span className="text-sm">Reflections</span>
                   </Button>
                 </Link>
 
                 <Link to="/request-song">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-accent transition-colors">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-accent transition-colors px-2 xl:px-3">
                     <MessageSquare className="w-4 h-4" />
-                    <span>Request</span>
+                    <span className="text-sm">Request</span>
                   </Button>
                 </Link>
 
                 <Link to="/donate">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
                     <Heart className="w-4 h-4" />
-                    <span>Donate</span>
+                    <span className="text-sm">Donate</span>
                   </Button>
                 </Link>
 
                 <Link to="/profile">
-                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
                     <UserCircle className="w-4 h-4" />
-                    <span>Profile</span>
+                    <span className="text-sm">Profile</span>
                   </Button>
                 </Link>
 
                 {isAdmin && (
                   <Link to="/dashboard">
-                    <Button variant="ghost" size="sm" className="gap-2 text-accent hover:text-accent/80 transition-colors">
+                    <Button variant="ghost" size="sm" className="gap-1 text-accent hover:text-accent/80 transition-colors px-2 xl:px-3">
                       <Shield className="w-4 h-4" />
-                      <span>Dashboard</span>
+                      <span className="text-sm">Dashboard</span>
                     </Button>
                   </Link>
                 )}
@@ -107,19 +113,19 @@ export default function Navigation() {
                   variant="ghost"
                   size="sm"
                   onClick={signOut}
-                  className="gap-2 text-foreground hover:text-destructive transition-colors"
+                  className="gap-1 text-foreground hover:text-destructive transition-colors px-2 xl:px-3"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
+                  <span className="text-sm">Sign Out</span>
                 </Button>
               </>
             )}
 
             {!user && (
               <Link to="/auth">
-                <Button variant="default" size="sm" className="gap-2 glow-blue">
+                <Button variant="default" size="sm" className="gap-1 glow-blue px-3 xl:px-4">
                   <UserCircle className="w-4 h-4" />
-                  <span>Sign In</span>
+                  <span className="text-sm">Sign In</span>
                 </Button>
               </Link>
             )}
