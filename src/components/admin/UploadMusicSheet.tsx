@@ -230,12 +230,12 @@ export default function UploadMusicSheet({ categories, events = [], onUploadSucc
           {events.length > 0 && (
             <div className="space-y-2">
               <Label htmlFor="event">Event (Optional)</Label>
-              <Select value={eventId || ""} onValueChange={(val) => setEventId(val || null)}>
+              <Select value={eventId || "none"} onValueChange={(val) => setEventId(val === "none" ? null : val)}>
                 <SelectTrigger className="bg-background/50">
                   <SelectValue placeholder="No event (regular upload)" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">No event (regular upload)</SelectItem>
+                  <SelectItem value="none">No event (regular upload)</SelectItem>
                   {events.map((event) => (
                     <SelectItem key={event.id} value={event.id}>
                       {event.title}
