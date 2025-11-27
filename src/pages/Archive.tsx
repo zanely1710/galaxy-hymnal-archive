@@ -238,7 +238,7 @@ export default function Archive() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {filteredSheets.map((sheet, index) => {
               const expired = isEventExpired(sheet);
               const active = isEventActive(sheet);
@@ -247,69 +247,71 @@ export default function Archive() {
                 <Card 
                   key={sheet.id} 
                   className={cn(
-                    "glass-card-intense group animate-scale-in relative overflow-hidden",
-                    expired ? "grayscale opacity-60 cursor-not-allowed" : "hover-lift",
+                    "glass-card-intense group animate-scale-in relative overflow-hidden border-2",
+                    expired ? "grayscale opacity-60 cursor-not-allowed border-muted" : "hover-lift border-border hover:border-primary/50",
                   )}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <CardHeader className="relative z-10">
-                    <div className="flex items-start justify-between gap-2 flex-wrap">
-                      <CardTitle className="font-display text-xl text-primary group-hover:text-blue-400 transition-colors">
-                        {sheet.title}
-                      </CardTitle>
-                      <div className="flex gap-2">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardHeader className="relative z-10 space-y-3 pb-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="font-display text-2xl text-primary group-hover:text-blue-400 transition-colors leading-tight mb-2">
+                          {sheet.title}
+                        </CardTitle>
+                        {sheet.composer && (
+                          <p className="text-sm text-muted-foreground font-medium">Composer: {sheet.composer}</p>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-2 items-end">
                         {isNew(sheet.created_at) && !expired && (
-                          <Badge variant="secondary" className="bg-accent text-accent-foreground animate-pulse-glow">
+                          <Badge variant="secondary" className="bg-accent text-accent-foreground animate-pulse-glow whitespace-nowrap">
                             New
                           </Badge>
                         )}
                         {active && (
-                          <Badge className="bg-green-500 text-white">
-                            Event: {sheet.music_events?.title}
+                          <Badge className="bg-green-500 text-white whitespace-nowrap">
+                            {sheet.music_events?.title}
                           </Badge>
                         )}
                         {expired && (
-                          <Badge variant="destructive">
+                          <Badge variant="destructive" className="whitespace-nowrap">
                             Event Ended
                           </Badge>
                         )}
                       </div>
                     </div>
-                  {sheet.composer && (
-                    <p className="text-sm text-muted-foreground">by {sheet.composer}</p>
-                  )}
-                  {sheet.categories && (
-                    <Badge variant="outline" className="w-fit border-primary">
-                      {sheet.categories.name}
-                    </Badge>
-                  )}
-                </CardHeader>
-                  <CardContent className="relative z-10">
+                    {sheet.categories && (
+                      <Badge variant="outline" className="w-fit border-primary/50 text-primary font-semibold">
+                        {sheet.categories.name}
+                      </Badge>
+                    )}
+                  </CardHeader>
+                  <CardContent className="relative z-10 space-y-4">
                     {expired && (
-                      <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                        <p className="text-sm font-medium text-destructive">
+                      <div className="p-4 bg-destructive/10 border-2 border-destructive/30 rounded-lg">
+                        <p className="text-sm font-semibold text-destructive text-center">
                           Event ended - not available anymore
                         </p>
                       </div>
                     )}
                     {active && sheet.music_events && sheet.music_events.stock_limit && (
-                      <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-md">
-                        <p className="text-sm font-medium text-green-600">
+                      <div className="p-4 bg-green-500/10 border-2 border-green-500/30 rounded-lg">
+                        <p className="text-sm font-semibold text-green-600 text-center">
                           Limited Stock: {sheet.music_events.stock_remaining}/{sheet.music_events.stock_limit} remaining
                         </p>
                       </div>
                     )}
                     {sheet.description && (
-                      <p className="text-sm text-foreground mb-4 line-clamp-2">
+                      <p className="text-sm text-foreground/90 leading-relaxed line-clamp-3">
                         {sheet.description}
                       </p>
                     )}
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 pt-2">
                       {sheet.file_url && !expired && (
                         <Button
-                          size="sm"
-                          className="flex-1 min-w-[120px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer"
+                          size="default"
+                          className="flex-1 min-w-[140px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer font-semibold"
                           onClick={() => navigate(`/sheet/${sheet.id}`)}
                         >
                           <MessageSquare className="w-4 h-4 mr-2" />
@@ -318,16 +320,17 @@ export default function Archive() {
                       )}
                       {sheet.file_url && !expired && (
                         <Button
-                          size="sm"
+                          size="default"
                           variant="outline"
+                          className="flex-1 min-w-[120px] hover:bg-primary/10 font-semibold"
                           onClick={() => window.open(sheet.file_url!, "_blank")}
                         >
-                          <Download className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />
+                          <Download className="w-4 h-4 mr-2 group-hover/btn:animate-bounce" />
                           Download
                         </Button>
                       )}
                       {isAdmin && (
-                        <>
+                        <div className="flex gap-2 w-full mt-2">
                           <EditMusicSheet
                             sheet={sheet}
                             categories={categories}
@@ -337,10 +340,12 @@ export default function Archive() {
                             size="sm"
                             variant="destructive"
                             onClick={() => setDeleteId(sheet.id)}
+                            className="flex-1"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Delete
                           </Button>
-                        </>
+                        </div>
                       )}
                     </div>
                   </CardContent>
