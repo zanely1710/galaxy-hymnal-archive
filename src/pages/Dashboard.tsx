@@ -138,10 +138,12 @@ export default function Dashboard() {
 
   if (loading || dataLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Shield className="w-12 h-12 text-primary mx-auto mb-4 animate-pulse" />
-          <p className="text-muted-foreground">Loading dashboard...</p>
+      <div className="min-h-screen bg-transparent relative particle-bg overflow-hidden flex items-center justify-center">
+        <Galaxy3D />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-blue-950/50 to-blue-900/60 backdrop-blur-lg pointer-events-none" />
+        <div className="text-center relative z-10 animate-fade-in">
+          <Shield className="w-16 h-16 text-primary mx-auto mb-6 animate-pulse-glow drop-shadow-2xl" />
+          <p className="text-xl text-foreground/90 font-medium shimmer">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -150,77 +152,117 @@ export default function Dashboard() {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-transparent relative particle-bg">
+    <div className="min-h-screen bg-transparent relative particle-bg overflow-hidden">
       <Galaxy3D />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-blue-950/40 to-blue-900/50 backdrop-blur-md pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-500/15 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-blue-950/50 to-blue-900/60 backdrop-blur-lg pointer-events-none" />
+      <div className="absolute inset-0 gradient-overlay-radial pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-400/15 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
       <Navigation />
 
       <main className="relative container mx-auto px-4 pt-24 pb-16">
-        <div className="mb-8 animate-fade-in-down">
-          <h1 className="font-display text-5xl font-bold text-gradient-blue mb-4 shimmer hover:scale-105 transition-transform duration-300">
+        <div className="mb-10 animate-fade-in-down">
+          <h1 className="font-display text-5xl md:text-6xl font-bold text-gradient-animated mb-4 shimmer hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_30px_rgba(59,130,246,0.6)]">
             Admin Dashboard
           </h1>
-          <p className="text-lg text-foreground/90 animate-fade-in" style={{animationDelay: "0.1s"}}>
+          <p className="text-lg md:text-xl text-foreground/90 animate-fade-in font-medium" style={{animationDelay: "0.1s"}}>
             Manage Gloriae Musica content and users
           </p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.1s" }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2 font-display text-primary group-hover:text-blue-400 transition-colors">
-                <Music className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
-                Music Sheets
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden border-primary/30" style={{ animationDelay: "0.1s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-blue-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 -z-10" />
+            <CardHeader className="relative z-10 pb-3">
+              <CardTitle className="flex items-center gap-3 font-display text-2xl">
+                <Music className="w-7 h-7 text-primary group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 drop-shadow-lg" />
+                <span className="text-gradient-blue">Music Sheets</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="relative z-10">
-              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.totalSheets}</p>
-              <p className="text-sm text-muted-foreground">Total sheets in archive</p>
+              <p className="text-5xl font-bold text-foreground mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-md">{stats.totalSheets}</p>
+              <p className="text-sm text-muted-foreground/80 font-medium">Total sheets in archive</p>
             </CardContent>
           </Card>
 
-          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.2s" }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2 font-display text-secondary group-hover:text-blue-300 transition-colors">
-                <Users className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500" />
-                Users
+          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden border-secondary/30" style={{ animationDelay: "0.2s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-secondary/15 via-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-300/20 to-blue-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 -z-10" />
+            <CardHeader className="relative z-10 pb-3">
+              <CardTitle className="flex items-center gap-3 font-display text-2xl">
+                <Users className="w-7 h-7 text-secondary group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 drop-shadow-lg" />
+                <span className="bg-gradient-to-r from-blue-300 to-blue-500 bg-clip-text text-transparent">Users</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="relative z-10">
-              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.totalUsers}</p>
-              <p className="text-sm text-muted-foreground">Registered users</p>
+              <p className="text-5xl font-bold text-foreground mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-md">{stats.totalUsers}</p>
+              <p className="text-sm text-muted-foreground/80 font-medium">Registered users</p>
             </CardContent>
           </Card>
 
-          <Card className="glass-card-intense hover-lift glow-gold group animate-scale-in relative overflow-hidden" style={{ animationDelay: "0.3s" }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <CardHeader className="relative z-10">
-              <CardTitle className="flex items-center gap-2 font-display text-accent group-hover:text-yellow-400 transition-colors">
-                <MessageSquare className="w-6 h-6 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-pulse-glow" />
-                Song Requests
+          <Card className="glass-card-intense hover-lift group animate-scale-in relative overflow-hidden border-yellow-500/30 glow-gold" style={{ animationDelay: "0.3s" }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/15 via-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 to-amber-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 -z-10" />
+            <CardHeader className="relative z-10 pb-3">
+              <CardTitle className="flex items-center gap-3 font-display text-2xl">
+                <MessageSquare className="w-7 h-7 text-yellow-500 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-pulse-glow drop-shadow-lg" />
+                <span className="bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">Song Requests</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="relative z-10">
-              <p className="text-4xl font-bold text-foreground mb-2 group-hover:scale-110 transition-transform duration-300">{stats.pendingRequests}</p>
-              <p className="text-sm text-muted-foreground">Pending requests</p>
+              <p className="text-5xl font-bold text-foreground mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow-md">{stats.pendingRequests}</p>
+              <p className="text-sm text-muted-foreground/80 font-medium">Pending requests</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Management Tabs */}
-        <Tabs defaultValue="upload" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-          <TabsList className="grid w-full grid-cols-7 bg-card">
-            <TabsTrigger value="upload">Upload</TabsTrigger>
-            <TabsTrigger value="categories">Categories</TabsTrigger>
-            <TabsTrigger value="requests">Requests</TabsTrigger>
-            <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="notifications">Notify</TabsTrigger>
-            <TabsTrigger value="events">Events</TabsTrigger>
-            <TabsTrigger value="comments">Comments</TabsTrigger>
+        <Tabs defaultValue="upload" className="space-y-8 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 glass-card p-2 gap-2 h-auto border border-primary/20">
+            <TabsTrigger 
+              value="upload"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Upload
+            </TabsTrigger>
+            <TabsTrigger 
+              value="categories"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Categories
+            </TabsTrigger>
+            <TabsTrigger 
+              value="requests"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Requests
+            </TabsTrigger>
+            <TabsTrigger 
+              value="users"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Users
+            </TabsTrigger>
+            <TabsTrigger 
+              value="notifications"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Notify
+            </TabsTrigger>
+            <TabsTrigger 
+              value="events"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Events
+            </TabsTrigger>
+            <TabsTrigger 
+              value="comments"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:glow-blue transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Comments
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload">
