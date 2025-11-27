@@ -14,6 +14,7 @@ export default function Navigation() {
     const saved = localStorage.getItem('nav-collapsed');
     return saved === 'true';
   });
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('nav-collapsed', isCollapsed.toString());
@@ -21,22 +22,36 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-300 ${isCollapsed ? '-top-full' : 'top-0'}`}>
+      {/* Hover trigger area */}
+      <div 
+        className="fixed top-0 left-0 right-0 h-4 z-50"
+        onMouseEnter={() => setIsHovered(true)}
+      />
+      
+      <nav 
+        className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-500 ease-in-out ${
+          isCollapsed 
+            ? '-top-full' 
+            : isHovered 
+              ? 'top-0' 
+              : '-top-20'
+        }`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
           <div className="flex items-center justify-between gap-2 md:gap-4">
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 group hover:scale-105 transition-all duration-300 min-w-0"
+            className="flex items-center gap-2 group hover:scale-105 transition-all duration-300"
           >
             <img 
               src={gloriaeLogoImage} 
               alt="Gloriae Musica" 
-              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl shrink-0" 
+              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
             />
-            <span 
-              className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl transition-all duration-500 ease-in-out whitespace-nowrap overflow-hidden max-w-0 group-hover:max-w-xs opacity-0 group-hover:opacity-100"
-            >
+            <span className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl whitespace-nowrap">
               Gloriae Musica
             </span>
           </Link>
@@ -234,7 +249,9 @@ export default function Navigation() {
         onClick={() => setIsCollapsed(!isCollapsed)}
         size="icon"
         variant="outline"
-        className={`fixed right-4 z-50 transition-all duration-300 glass-card glow-blue ${isCollapsed ? 'top-4' : 'top-20'}`}
+        className={`fixed right-4 top-4 z-50 transition-all duration-500 glass-card glow-blue ${
+          isHovered ? 'opacity-100' : 'opacity-50 hover:opacity-100'
+        }`}
         title={isCollapsed ? "Show navigation" : "Hide navigation"}
       >
         {isCollapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
