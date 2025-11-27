@@ -13,6 +13,7 @@ import SongRequests from "@/components/admin/SongRequests";
 import SendNotification from "@/components/admin/SendNotification";
 import ManageUsers from "@/components/admin/ManageUsers";
 import ManageEvents from "@/components/admin/ManageEvents";
+import ModerateComments from "@/components/admin/ModerateComments";
 
 interface Stats {
   totalSheets: number;
@@ -212,13 +213,14 @@ export default function Dashboard() {
 
         {/* Management Tabs */}
         <Tabs defaultValue="upload" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-          <TabsList className="grid w-full grid-cols-6 bg-card">
-            <TabsTrigger value="upload">Upload Music</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-7 bg-card">
+            <TabsTrigger value="upload">Upload</TabsTrigger>
             <TabsTrigger value="categories">Categories</TabsTrigger>
             <TabsTrigger value="requests">Requests</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="notifications">Notify</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
+            <TabsTrigger value="comments">Comments</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload">
@@ -243,6 +245,10 @@ export default function Dashboard() {
 
           <TabsContent value="events">
             <ManageEvents events={events} onUpdate={fetchData} />
+          </TabsContent>
+
+          <TabsContent value="comments">
+            <ModerateComments />
           </TabsContent>
         </Tabs>
       </main>
