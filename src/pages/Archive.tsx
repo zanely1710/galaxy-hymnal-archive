@@ -21,6 +21,7 @@ import {
 import { Search, Download, Music, Trash2, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import EditMusicSheet from "@/components/admin/EditMusicSheet";
 
 interface MusicSheet {
@@ -59,6 +60,7 @@ export default function Archive() {
   const [showChat, setShowChat] = useState(false);
   const { toast } = useToast();
   const { isAdmin, user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -303,11 +305,21 @@ export default function Archive() {
                         {sheet.description}
                       </p>
                     )}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex gap-2">
                       {sheet.file_url && !expired && (
                         <Button
                           size="sm"
                           className="flex-1 min-w-[120px] glow-blue hover:scale-105 transition-all duration-300 group/btn shimmer"
+                          onClick={() => navigate(`/sheet/${sheet.id}`)}
+                        >
+                          <MessageSquare className="w-4 h-4 mr-2" />
+                          View Details
+                        </Button>
+                      )}
+                      {sheet.file_url && !expired && (
+                        <Button
+                          size="sm"
+                          variant="outline"
                           onClick={() => window.open(sheet.file_url!, "_blank")}
                         >
                           <Download className="w-4 h-4 mr-2 group-hover/btn:animate-pulse" />

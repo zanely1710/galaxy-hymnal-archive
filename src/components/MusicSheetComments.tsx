@@ -64,13 +64,13 @@ export default function MusicSheetComments({ musicSheetId }: MusicSheetCommentsP
         .from("music_comments")
         .select(`
           *,
-          profiles (name, email)
+          profiles!music_comments_user_id_fkey (name, email)
         `)
         .eq("music_sheet_id", musicSheetId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+      setComments((data || []) as unknown as Comment[]);
     } catch (error: any) {
       console.error("Error fetching comments:", error);
     } finally {

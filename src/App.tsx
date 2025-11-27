@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Archive from "./pages/Archive";
+import MusicSheetDetail from "./pages/MusicSheetDetail";
 import Reflections from "./pages/Reflections";
 import Dashboard from "./pages/Dashboard";
 import RequestSong from "./pages/RequestSong";
@@ -34,6 +35,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Archive />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/sheet/:id"
+              element={
+                <ProtectedRoute>
+                  <MusicSheetDetail />
                 </ProtectedRoute>
               }
             />

@@ -55,13 +55,13 @@ export default function ModerateComments() {
         .from("music_comments")
         .select(`
           *,
-          profiles (name, email),
-          music_sheets (title)
+          profiles!music_comments_user_id_fkey (name, email),
+          music_sheets!music_comments_music_sheet_id_fkey (title)
         `)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+      setComments((data || []) as unknown as Comment[]);
     } catch (error: any) {
       toast({
         title: "Error loading comments",
