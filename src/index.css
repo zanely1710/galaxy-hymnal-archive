@@ -481,11 +481,44 @@ All colors MUST be HSL.
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+* {
+  @apply border-border;
+}
 
-  body {
-    @apply bg-background text-foreground;
+body {
+  @apply bg-background text-foreground;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Optimize animations with GPU acceleration */
+.animate-float,
+.animate-pulse-glow,
+.animate-fade-in-up,
+.animate-scale-in,
+.animate-slide-in-left,
+.animate-slide-in-right,
+.hover-lift,
+.glass-card,
+.glass-card-intense {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Remove will-change after animation completes */
+.animate-float:not(:hover),
+.animate-pulse-glow:not(:hover) {
+  will-change: auto;
+}
 }
