@@ -14,6 +14,7 @@ export default function Navigation() {
     const saved = localStorage.getItem('nav-collapsed');
     return saved === 'true';
   });
+  const [showName, setShowName] = useState(true);
 
   useEffect(() => {
     localStorage.setItem('nav-collapsed', isCollapsed.toString());
@@ -25,12 +26,25 @@ export default function Navigation() {
         <div className="container mx-auto px-4 py-3 md:py-4">
           <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <img src={gloriaeLogoImage} alt="Gloriae Musica" className="w-8 h-8 md:w-12 md:h-12 group-hover:scale-110 transition-transform" />
-            <span className="font-bold text-gradient-animated font-sans text-2xl md:text-4xl">
-              Gloriae Musica
-            </span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setShowName(!showName)}
+              className="flex items-center gap-2 group hover:scale-105 transition-all duration-300"
+            >
+              <img 
+                src={gloriaeLogoImage} 
+                alt="Gloriae Musica" 
+                className="w-8 h-8 md:w-12 md:h-12 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
+              />
+              <span 
+                className={`font-bold text-gradient-animated font-sans text-2xl md:text-4xl transition-all duration-500 ${
+                  showName ? 'opacity-100 max-w-xs' : 'opacity-0 max-w-0 overflow-hidden'
+                }`}
+              >
+                Gloriae Musica
+              </span>
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-2">

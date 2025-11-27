@@ -15,16 +15,19 @@ const Index = () => {
         }
       });
     }, {
-      threshold: 0.1
+      threshold: 0.1,
+      rootMargin: "0px 0px -100px 0px"
     });
-    const elements = document.querySelectorAll(".scroll-fade-in");
+    const elements = document.querySelectorAll(".scroll-fade-in, .scroll-slide-left, .scroll-slide-right");
     elements.forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
-  return <div className="min-h-screen bg-transparent relative particle-bg">
+  return <div className="min-h-screen bg-transparent relative particle-bg overflow-hidden">
       <Galaxy3D />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-blue-950/40 to-blue-900/50 backdrop-blur-md pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-blue-950/50 to-blue-900/60 backdrop-blur-lg pointer-events-none" />
+      <div className="absolute inset-0 gradient-overlay-radial pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-400/15 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
       <Navigation />
 
       <main className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-20">
@@ -66,30 +69,34 @@ const Index = () => {
             </Link>
           </div>
 
-          <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-16 max-w-3xl mx-auto">
+          <div ref={featuresRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-20 max-w-4xl mx-auto">
             {[{
             title: "Free Access",
             desc: "All music sheets available at no cost",
-            icon: Gift
+            icon: Gift,
+            anim: "scroll-slide-left"
           }, {
             title: "Sacred Heritage",
             desc: "Timeless liturgical compositions",
-            icon: Heart
+            icon: Heart,
+            anim: "scroll-fade-in"
           }, {
             title: "Community Driven",
             desc: "Request songs and share feedback",
-            icon: Users
-          }].map((feature, i) => <div key={i} className="glass-card-intense p-8 rounded-xl hover-lift scroll-fade-in group relative overflow-hidden" style={{
-            animationDelay: `${i * 0.15}s`
+            icon: Users,
+            anim: "scroll-slide-right"
+          }].map((feature, i) => <div key={i} className={`glass-card-intense p-10 rounded-2xl hover-lift ${feature.anim} group relative overflow-hidden`} style={{
+            animationDelay: `${i * 0.2}s`
           }}>
                 <div className="relative z-10">
-                  <feature.icon className="w-14 h-14 text-primary mx-auto mb-4 drop-shadow-lg group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-pulse-glow" />
-                  <h3 className="text-xl font-bold text-primary mb-3 font-sans group-hover:text-blue-400 transition-colors">
+                  <feature.icon className="w-16 h-16 text-primary mx-auto mb-5 drop-shadow-2xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 animate-pulse-glow" />
+                  <h3 className="text-2xl font-bold text-gradient-blue mb-4 font-sans group-hover:scale-105 transition-transform">
                     {feature.title}
                   </h3>
-                  <p className="text-foreground group-hover:text-foreground/90 transition-colors">{feature.desc}</p>
+                  <p className="text-foreground/90 text-lg group-hover:text-foreground transition-colors">{feature.desc}</p>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-blue-400/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 -z-10" />
               </div>)}
           </div>
         </div>
