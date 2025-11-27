@@ -83,7 +83,7 @@ export default function Settings() {
         <div className="max-w-2xl mx-auto space-y-6">
           <div>
             <h1 className="text-4xl font-bold mb-2 text-white">Settings</h1>
-            <p className="text-muted-foreground">Manage your preferences</p>
+            <p className="text-muted-foreground text-white">Manage your preferences</p>
           </div>
 
           <Card className="glass-card-intense">
