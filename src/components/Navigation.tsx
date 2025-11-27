@@ -40,7 +40,7 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4 flex-wrap">
             <Link to="/founders">
               <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
                 <Info className="w-4 h-4 shrink-0" />
