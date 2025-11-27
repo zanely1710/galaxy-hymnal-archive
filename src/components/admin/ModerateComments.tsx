@@ -51,16 +51,31 @@ export default function ModerateComments() {
 
   const fetchComments = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: commentsData, error } = await supabase
         .from("music_comments")
-        .select(`
-          *,
-          profiles!music_comments_user_id_fkey (name, email),
-          music_sheets!music_comments_music_sheet_id_fkey (title)
-        `)
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
+
+      // Fetch profiles and sheets separately
+      const userIds = [...new Set(commentsData?.map(c => c.user_id) || [])];
+      const sheetIds = [...new Set(commentsData?.map(c => c.music_sheet_id) || [])];
+      
+      const [profilesResult, sheetsResult] = await Promise.all([
+        supabase.from("profiles").select("id, name, email").in("id", userIds),
+        supabase.from("music_sheets").select("id, title").in("id", sheetIds),
+      ]);
+
+      const profilesMap = new Map(profilesResult.data?.map(p => [p.id, p]) || []);
+      const sheetsMap = new Map(sheetsResult.data?.map(s => [s.id, s]) || []);
+      
+      const data = commentsData?.map(comment => ({
+        ...comment,
+        profiles: profilesMap.get(comment.user_id) || null,
+        music_sheets: sheetsMap.get(comment.music_sheet_id) || null,
+      }));
+
       setComments((data || []) as unknown as Comment[]);
     } catch (error: any) {
       toast({

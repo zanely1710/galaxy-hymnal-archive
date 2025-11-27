@@ -60,16 +60,28 @@ export default function MusicSheetComments({ musicSheetId }: MusicSheetCommentsP
 
   const fetchComments = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: commentsData, error } = await supabase
         .from("music_comments")
-        .select(`
-          *,
-          profiles!music_comments_user_id_fkey (name, email)
-        `)
+        .select("*")
         .eq("music_sheet_id", musicSheetId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
+
+      // Fetch profiles separately
+      const userIds = [...new Set(commentsData?.map(c => c.user_id) || [])];
+      const { data: profilesData } = await supabase
+        .from("profiles")
+        .select("id, name, email")
+        .in("id", userIds);
+
+      const profilesMap = new Map(profilesData?.map(p => [p.id, p]) || []);
+      
+      const data = commentsData?.map(comment => ({
+        ...comment,
+        profiles: profilesMap.get(comment.user_id) || null,
+      }));
+
       setComments((data || []) as unknown as Comment[]);
     } catch (error: any) {
       console.error("Error fetching comments:", error);
