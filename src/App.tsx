@@ -12,6 +12,8 @@ import MusicSheetDetail from "./pages/MusicSheetDetail";
 import Reflections from "./pages/Reflections";
 import Dashboard from "./pages/Dashboard";
 import RequestSong from "./pages/RequestSong";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import Founders from "./pages/Founders";
 import Donate from "./pages/Donate";
 import NotFound from "./pages/NotFound";
@@ -59,6 +61,22 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <RequestSong />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
                 </ProtectedRoute>
               }
             />

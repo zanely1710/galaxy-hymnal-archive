@@ -71,6 +71,13 @@ export default function Navigation() {
                   </Button>
                 </Link>
 
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm" className="gap-2 text-foreground hover:text-primary transition-colors">
+                    <UserCircle className="w-4 h-4" />
+                    <span>Profile</span>
+                  </Button>
+                </Link>
+
                 {isAdmin && (
                   <Link to="/dashboard">
                     <Button variant="ghost" size="sm" className="gap-2 text-accent hover:text-accent/80 transition-colors">
