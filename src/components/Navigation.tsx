@@ -14,7 +14,6 @@ export default function Navigation() {
     const saved = localStorage.getItem('nav-collapsed');
     return saved === 'true';
   });
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('nav-collapsed', isCollapsed.toString());
@@ -22,36 +21,20 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Hover trigger area */}
-      <div 
-        className="fixed top-0 left-0 right-0 h-4 z-50"
-        onMouseEnter={() => setIsHovered(true)}
-      />
-      
-      <nav 
-        className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-500 ease-in-out ${
-          isCollapsed 
-            ? '-top-full' 
-            : isHovered 
-              ? 'top-0' 
-              : '-top-20'
-        }`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
+      <nav className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-300 ${isCollapsed ? '-top-full' : 'top-0'}`}>
         <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
           <div className="flex items-center justify-between gap-2 md:gap-4">
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2 group hover:scale-105 transition-all duration-300"
+            className="flex items-center gap-0 group hover:scale-105 transition-all duration-300 overflow-hidden"
           >
             <img 
               src={gloriaeLogoImage} 
               alt="Gloriae Musica" 
-              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl" 
+              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl shrink-0" 
             />
-            <span className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl whitespace-nowrap">
+            <span className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-500">
               Gloriae Musica
             </span>
           </Link>
@@ -59,61 +42,61 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap">
             <Link to="/founders">
-              <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
-                <Info className="w-4 h-4" />
-                <span className="text-sm">About</span>
+              <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                <Info className="w-4 h-4 shrink-0" />
+                <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">About</span>
               </Button>
             </Link>
 
             {user && (
               <>
                 <Link to="/archive">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
-                    <Library className="w-4 h-4" />
-                    <span className="text-sm">Archive</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <Library className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Archive</span>
                   </Button>
                 </Link>
 
                 <Link to="/reflections">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-secondary transition-colors px-2 xl:px-3">
-                    <Sparkles className="w-4 h-4" />
-                    <span className="text-sm">Reflections</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-secondary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <Sparkles className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Reflections</span>
                   </Button>
                 </Link>
 
                 <Link to="/request-song">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-accent transition-colors px-2 xl:px-3">
-                    <MessageSquare className="w-4 h-4" />
-                    <span className="text-sm">Request</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-accent transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Request</span>
                   </Button>
                 </Link>
 
                 <Link to="/donate">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
-                    <Heart className="w-4 h-4" />
-                    <span className="text-sm">Donate</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <Heart className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Donate</span>
                   </Button>
                 </Link>
 
                 <Link to="/profile">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
-                    <UserCircle className="w-4 h-4" />
-                    <span className="text-sm">Profile</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <UserCircle className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Profile</span>
                   </Button>
                 </Link>
                 
                 <Link to="/settings">
-                  <Button variant="ghost" size="sm" className="gap-1 text-foreground hover:text-primary transition-colors px-2 xl:px-3">
-                    <Settings className="w-4 h-4" />
-                    <span className="text-sm">Settings</span>
+                  <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                    <Settings className="w-4 h-4 shrink-0" />
+                    <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Settings</span>
                   </Button>
                 </Link>
 
                 {isAdmin && (
                   <Link to="/dashboard">
-                    <Button variant="ghost" size="sm" className="gap-1 text-accent hover:text-accent/80 transition-colors px-2 xl:px-3">
-                      <Shield className="w-4 h-4" />
-                      <span className="text-sm">Dashboard</span>
+                    <Button variant="ghost" size="sm" className="gap-0 text-accent hover:text-accent/80 transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
+                      <Shield className="w-4 h-4 shrink-0" />
+                      <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Dashboard</span>
                     </Button>
                   </Link>
                 )}
@@ -124,19 +107,19 @@ export default function Navigation() {
                   variant="ghost"
                   size="sm"
                   onClick={signOut}
-                  className="gap-1 text-foreground hover:text-destructive transition-colors px-2 xl:px-3"
+                  className="gap-0 text-foreground hover:text-destructive transition-all duration-300 px-2 xl:px-3 group overflow-hidden"
                 >
-                  <LogOut className="w-4 h-4" />
-                  <span className="text-sm">Sign Out</span>
+                  <LogOut className="w-4 h-4 shrink-0" />
+                  <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Sign Out</span>
                 </Button>
               </>
             )}
 
             {!user && (
               <Link to="/auth">
-                <Button variant="default" size="sm" className="gap-1 glow-blue px-3 xl:px-4">
-                  <UserCircle className="w-4 h-4" />
-                  <span className="text-sm">Sign In</span>
+                <Button variant="default" size="sm" className="gap-0 glow-blue px-3 xl:px-4 group overflow-hidden">
+                  <UserCircle className="w-4 h-4 shrink-0" />
+                  <span className="text-sm max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-1 transition-all duration-300 whitespace-nowrap">Sign In</span>
                 </Button>
               </Link>
             )}
@@ -249,9 +232,7 @@ export default function Navigation() {
         onClick={() => setIsCollapsed(!isCollapsed)}
         size="icon"
         variant="outline"
-        className={`fixed right-4 top-4 z-50 transition-all duration-500 glass-card glow-blue ${
-          isHovered ? 'opacity-100' : 'opacity-50 hover:opacity-100'
-        }`}
+        className={`fixed right-4 z-50 transition-all duration-300 glass-card glow-blue ${isCollapsed ? 'top-4' : 'top-20'}`}
         title={isCollapsed ? "Show navigation" : "Hide navigation"}
       >
         {isCollapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
