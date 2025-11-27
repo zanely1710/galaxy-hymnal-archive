@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,67 +11,15 @@ import { Moon, Sun, Settings as SettingsIcon, ExternalLink } from "lucide-react"
 import { toast } from "@/hooks/use-toast";
 
 export default function Settings() {
-  const { user } = useAuth();
-  const [darkMode, setDarkMode] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchSettings();
-  }, [user]);
-
-  useEffect(() => {
-    // Apply dark mode
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const fetchSettings = async () => {
-    if (!user) return;
-    
-    const { data } = await supabase
-      .from("profiles")
-      .select("appearance_mode")
-      .eq("id", user.id)
-      .single();
-
-    if (data) {
-      setDarkMode(data.appearance_mode === "dark");
-    }
-    setLoading(false);
-  };
+  const { darkMode, toggleDarkMode } = useTheme();
 
   const handleToggleDarkMode = async (checked: boolean) => {
-    setDarkMode(checked);
-    
-    const { error } = await supabase
-      .from("profiles")
-      .update({ appearance_mode: checked ? "dark" : "light" })
-      .eq("id", user?.id);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Settings updated",
-        description: `${checked ? "Dark" : "Light"} mode enabled`,
-      });
-    }
+    toggleDarkMode();
+    toast({
+      title: "Settings updated",
+      description: `${checked ? "Dark" : "Light"} mode enabled`,
+    });
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <SettingsIcon className="w-12 h-12 text-primary animate-pulse" />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-transparent relative particle-bg">
