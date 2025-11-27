@@ -23,7 +23,7 @@ export default function Navigation() {
     <>
       <nav className={`fixed left-0 right-0 z-50 glass-card border-b border-border transition-all duration-300 ${isCollapsed ? '-top-full' : 'top-0'}`}>
         <div className="container mx-auto px-3 md:px-4 py-2 md:py-3">
-          <div className="flex items-center justify-between gap-2 md:gap-4">
+          <div className="flex items-center justify-start gap-4 md:gap-6">
           {/* Logo */}
           <Link 
             to="/" 
@@ -40,7 +40,7 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap -ml-4">
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-wrap">
             <Link to="/founders">
               <Button variant="ghost" size="sm" className="gap-0 text-foreground hover:text-primary transition-all duration-300 px-2 xl:px-3 group overflow-hidden">
                 <Info className="w-4 h-4 shrink-0" />
@@ -126,7 +126,7 @@ export default function Navigation() {
           </div>
 
           {/* Mobile Menu */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2 ml-auto">
             {user && <NotificationButton />}
             
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
