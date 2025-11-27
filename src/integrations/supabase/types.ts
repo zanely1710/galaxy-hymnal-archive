@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          ip_address: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -61,36 +88,151 @@ export type Database = {
           },
         ]
       }
+      favorites: {
+        Row: {
+          created_at: string | null
+          id: string
+          music_sheet_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          music_sheet_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          music_sheet_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_music_sheet_id_fkey"
+            columns: ["music_sheet_id"]
+            isOneToOne: false
+            referencedRelation: "music_sheets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      music_comments: {
+        Row: {
+          comment: string
+          created_at: string | null
+          id: string
+          is_moderated: boolean | null
+          music_sheet_id: string
+          user_id: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string | null
+          id?: string
+          is_moderated?: boolean | null
+          music_sheet_id: string
+          user_id: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string | null
+          id?: string
+          is_moderated?: boolean | null
+          music_sheet_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "music_comments_music_sheet_id_fkey"
+            columns: ["music_sheet_id"]
+            isOneToOne: false
+            referencedRelation: "music_sheets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      music_events: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          end_date: string
+          id: string
+          start_date: string
+          stock_limit: number | null
+          stock_remaining: number | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          end_date: string
+          id?: string
+          start_date: string
+          stock_limit?: number | null
+          stock_remaining?: number | null
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          end_date?: string
+          id?: string
+          start_date?: string
+          stock_limit?: number | null
+          stock_remaining?: number | null
+          title?: string
+        }
+        Relationships: []
+      }
       music_sheets: {
         Row: {
+          arranger: string | null
           category_id: string | null
           composer: string | null
           created_at: string
           description: string | null
+          difficulty: string | null
+          event_id: string | null
           file_url: string | null
           id: string
+          is_latest: boolean | null
+          parent_id: string | null
           thumbnail_url: string | null
           title: string
+          version_number: number | null
         }
         Insert: {
+          arranger?: string | null
           category_id?: string | null
           composer?: string | null
           created_at?: string
           description?: string | null
+          difficulty?: string | null
+          event_id?: string | null
           file_url?: string | null
           id?: string
+          is_latest?: boolean | null
+          parent_id?: string | null
           thumbnail_url?: string | null
           title: string
+          version_number?: number | null
         }
         Update: {
+          arranger?: string | null
           category_id?: string | null
           composer?: string | null
           created_at?: string
           description?: string | null
+          difficulty?: string | null
+          event_id?: string | null
           file_url?: string | null
           id?: string
+          is_latest?: boolean | null
+          parent_id?: string | null
           thumbnail_url?: string | null
           title?: string
+          version_number?: number | null
         }
         Relationships: [
           {
@@ -98,6 +240,20 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "music_sheets_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "music_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "music_sheets_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "music_sheets"
             referencedColumns: ["id"]
           },
         ]
@@ -139,25 +295,31 @@ export type Database = {
       }
       profiles: {
         Row: {
+          appearance_mode: string | null
           created_at: string
           email: string
           id: string
           last_login: string | null
           name: string | null
+          profile_picture_url: string | null
         }
         Insert: {
+          appearance_mode?: string | null
           created_at?: string
           email: string
           id: string
           last_login?: string | null
           name?: string | null
+          profile_picture_url?: string | null
         }
         Update: {
+          appearance_mode?: string | null
           created_at?: string
           email?: string
           id?: string
           last_login?: string | null
           name?: string | null
+          profile_picture_url?: string | null
         }
         Relationships: []
       }
@@ -181,27 +343,36 @@ export type Database = {
       }
       song_requests: {
         Row: {
+          admin_notes: string | null
           completed: boolean
           created_at: string
           id: string
           message: string | null
+          status: string
           title: string
+          updated_at: string | null
           user_id: string
         }
         Insert: {
+          admin_notes?: string | null
           completed?: boolean
           created_at?: string
           id?: string
           message?: string | null
+          status?: string
           title: string
+          updated_at?: string | null
           user_id: string
         }
         Update: {
+          admin_notes?: string | null
           completed?: boolean
           created_at?: string
           id?: string
           message?: string | null
+          status?: string
           title?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: [
