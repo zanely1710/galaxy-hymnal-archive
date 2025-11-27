@@ -88,6 +88,45 @@ export type Database = {
           },
         ]
       }
+      event_downloads: {
+        Row: {
+          downloaded_at: string
+          event_id: string
+          id: string
+          music_sheet_id: string
+          user_id: string
+        }
+        Insert: {
+          downloaded_at?: string
+          event_id: string
+          id?: string
+          music_sheet_id: string
+          user_id: string
+        }
+        Update: {
+          downloaded_at?: string
+          event_id?: string
+          id?: string
+          music_sheet_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_downloads_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "music_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_downloads_music_sheet_id_fkey"
+            columns: ["music_sheet_id"]
+            isOneToOne: false
+            referencedRelation: "music_sheets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       favorites: {
         Row: {
           created_at: string | null
