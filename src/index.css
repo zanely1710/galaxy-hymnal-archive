@@ -522,3 +522,38 @@ body {
   will-change: auto;
 }
 }
+
+/* Christmas Snowfall Animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-10px) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(25vh) translateX(10px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(50vh) translateX(-10px) rotate(180deg);
+  }
+  75% {
+    transform: translateY(75vh) translateX(10px) rotate(270deg);
+  }
+  100% {
+    transform: translateY(100vh) translateX(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Christmas accent colors */
+.christmas .glass-card {
+  border-color: hsl(0 70% 50% / 0.2);
+}
+
+.christmas .glass-card:hover {
+  border-color: hsl(120 60% 40% / 0.3);
+}

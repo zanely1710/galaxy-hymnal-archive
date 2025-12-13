@@ -2,13 +2,16 @@ import { Link } from "react-router-dom";
 import { Music, Library, Sparkles, LogOut, UserCircle, Shield, Info, MessageSquare, Menu, X, ChevronUp, ChevronDown, Heart, Settings } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useChristmas } from "@/contexts/ChristmasThemeContext";
 import NotificationButton from "./NotificationButton";
+import SantaHat from "./SantaHat";
 import { useState, useEffect } from "react";
 import gloriaeLogoImage from "@/assets/gloriae-logo.png";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export default function Navigation() {
   const { user, isAdmin, signOut } = useAuth();
+  const { isChristmasMode } = useChristmas();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     const saved = localStorage.getItem('nav-collapsed');
@@ -29,11 +32,16 @@ export default function Navigation() {
             to="/" 
             className="flex items-center gap-0 group hover:scale-105 transition-all duration-300 overflow-hidden"
           >
-            <img 
-              src={gloriaeLogoImage} 
-              alt="Gloriae Musica" 
-              className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl shrink-0" 
-            />
+            <div className="relative">
+              <img 
+                src={gloriaeLogoImage} 
+                alt="Gloriae Musica" 
+                className="w-8 h-8 md:w-10 md:h-10 group-hover:rotate-12 transition-transform duration-300 drop-shadow-2xl shrink-0" 
+              />
+              {isChristmasMode && (
+                <SantaHat className="absolute -top-3 -left-1 w-8 h-6 md:w-10 md:h-7 transform -rotate-12 drop-shadow-lg" />
+              )}
+            </div>
             <span className="font-bold text-gradient-animated font-sans text-xl lg:text-2xl xl:text-3xl whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-500">
               Gloriae Musica
             </span>

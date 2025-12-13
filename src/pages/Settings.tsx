@@ -1,23 +1,33 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useChristmas } from "@/contexts/ChristmasThemeContext";
 import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Settings as SettingsIcon, ExternalLink } from "lucide-react";
+import { Moon, Sun, Settings as SettingsIcon, ExternalLink, Snowflake } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 export default function Settings() {
   const { darkMode, toggleDarkMode } = useTheme();
+  const { isChristmasMode, toggleChristmasMode } = useChristmas();
 
   const handleToggleDarkMode = async (checked: boolean) => {
     toggleDarkMode();
     toast({
       title: "Settings updated",
       description: `${checked ? "Dark" : "Light"} mode enabled`,
+    });
+  };
+
+  const handleToggleChristmas = () => {
+    toggleChristmasMode();
+    toast({
+      title: "Settings updated",
+      description: isChristmasMode ? "Christmas theme disabled" : "Christmas theme enabled 🎄",
     });
   };
 
@@ -44,7 +54,7 @@ export default function Settings() {
                 Customize how Gloriae Musica looks for you
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="dark-mode">Dark Mode</Label>
@@ -56,6 +66,22 @@ export default function Settings() {
                   id="dark-mode"
                   checked={darkMode}
                   onCheckedChange={handleToggleDarkMode}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label htmlFor="christmas-mode" className="flex items-center gap-2">
+                    <Snowflake className="w-4 h-4 text-sky-400" />
+                    Christmas Theme
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Enable festive snowfall and decorations
+                  </p>
+                </div>
+                <Switch
+                  id="christmas-mode"
+                  checked={isChristmasMode}
+                  onCheckedChange={handleToggleChristmas}
                 />
               </div>
             </CardContent>
