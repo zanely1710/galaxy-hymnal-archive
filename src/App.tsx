@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { ChristmasThemeProvider, useChristmas } from "./contexts/ChristmasThemeContext";
+import ChristmasEffects from "./components/ChristmasEffects";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
@@ -22,6 +24,83 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function AppContent() {
+  const { isChristmasMode } = useChristmas();
+  
+  return (
+    <>
+      {isChristmasMode && <ChristmasEffects />}
+      <div className="flex flex-col min-h-screen">
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/founders" element={<Founders />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route
+            path="/archive"
+            element={
+              <ProtectedRoute>
+                <Archive />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sheet/:id"
+            element={
+              <ProtectedRoute>
+                <MusicSheetDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reflections"
+            element={
+              <ProtectedRoute>
+                <Reflections />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/request-song"
+            element={
+              <ProtectedRoute>
+                <RequestSong />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </div>
+    </>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -30,73 +109,9 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <ThemeProvider>
-            <div className="flex flex-col min-h-screen">
-              <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/founders" element={<Founders />} />
-              <Route path="/donate" element={<Donate />} />
-              <Route
-                path="/archive"
-                element={
-                  <ProtectedRoute>
-                    <Archive />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/sheet/:id"
-                element={
-                  <ProtectedRoute>
-                    <MusicSheetDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/reflections"
-                element={
-                  <ProtectedRoute>
-                    <Reflections />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/request-song"
-                element={
-                  <ProtectedRoute>
-                    <RequestSong />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/settings"
-                element={
-                  <ProtectedRoute>
-                    <Settings />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Footer />
-            </div>
+            <ChristmasThemeProvider>
+              <AppContent />
+            </ChristmasThemeProvider>
           </ThemeProvider>
         </AuthProvider>
       </BrowserRouter>
