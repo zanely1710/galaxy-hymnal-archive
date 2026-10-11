@@ -211,8 +211,13 @@ export default function DeveloperMessage() {
   const body = paragraphs.slice(1);
 
   return (
-    <Dialog open={open} onOpenChange={(o) => { if (!o) dismiss(); }}>
-      <DialogContent className="max-w-2xl max-h-[85vh] p-0 overflow-hidden glass-card-intense border-border">
+    <Dialog open={open}>
+      <DialogContent
+        className="max-w-2xl max-h-[85vh] p-0 overflow-hidden glass-card-intense border-border [&>button]:hidden"
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
         <div className="relative">
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
           <div className="relative flex flex-col items-center pt-8 pb-4 px-6 text-center">
