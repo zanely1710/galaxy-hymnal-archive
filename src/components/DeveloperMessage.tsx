@@ -213,7 +213,7 @@ export default function DeveloperMessage() {
   return (
     <Dialog open={open}>
       <DialogContent
-        className="max-w-2xl max-h-[85vh] p-0 overflow-hidden glass-card-intense border-border [&>button]:hidden"
+        className="max-w-2xl max-h-[85vh] p-0 overflow-hidden bg-card/95 backdrop-blur-xl border-2 border-primary/25 shadow-2xl [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
