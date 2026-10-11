@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Library, Music4, Heart, Users, Gift } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Galaxy3D from "@/components/Galaxy3D";
+import DeveloperMessage from "@/components/DeveloperMessage";
 import { useEffect, useRef } from "react";
 import gloriaeIcon from "@/assets/gloriae-icon.png";
 const Index = () => {
@@ -29,6 +30,7 @@ const Index = () => {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-400/15 via-transparent to-transparent pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
       <Navigation />
+      <DeveloperMessage />
 
       <main className="relative flex flex-col items-center justify-center min-h-screen px-4 pt-20">
         <div className="text-center space-y-4 max-w-5xl mx-auto animate-fade-in-down">
